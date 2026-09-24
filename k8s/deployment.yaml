@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linh-ung-app-deployment
+  namespace: prod-pagoda
+  labels:
+    app: linh-ung-app
+    tier: fullstack
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: linh-ung-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: linh-ung-app
+    spec:
+      containers:
+        - name: linh-ung-app
+          image: asia-docker.pkg.dev/linh-ung-platform/containers/linh-ung-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3000"
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: linhung-secrets
+                  key: gemini-api-key
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: linh-ung-app-svc
+  namespace: prod-pagoda
+spec:
+  type: ClusterIP
+  selector:
+    app: linh-ung-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

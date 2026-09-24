@@ -1,0 +1,11 @@
+{
+  "name": "Linh Ứng Pagoda Smart Guide & Narration",
+  "description": "Ứng dụng thuyết minh Chùa Linh Ứng Sơn Trà: Quét QR di tích, thuyết minh giọng nói đa ngôn ngữ, bản đồ chỉ đường chống lạc, AR thực tế tăng cường, đặt vé, chatbot AI và kiến trúc microservices CI/CD.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
