@@ -95,6 +95,42 @@ export const TRANSLATIONS: Record<SupportedLanguage, {
     eventStream: string;
     activeServices: string;
   };
+  common: {
+    mobileFrame: string;
+    fullScreen: string;
+    close: string;
+    minutes: string;
+    elevation: string;
+    heading: string;
+  };
+  monumentView: {
+    heroBadge: string;
+    heroTitle: string;
+    heroSubtitle: string;
+    searchPlaceholder: string;
+    categories: {
+      all: string;
+      monument: string;
+      temple: string;
+      relic: string;
+      viewpoint: string;
+      nature: string;
+    };
+    audioGuideBtn: string;
+    pauseBtn: string;
+    detailsBtn: string;
+    autoVoiceTitle: string;
+    autoVoiceSubtitle: string;
+    listenNowBtn: string;
+    selectVoiceLangLabel: string;
+    historyTitle: string;
+    spiritualTitle: string;
+    architectureTitle: string;
+    adviceTitle: string;
+    navigateBtn: string;
+    viewArBtn: string;
+    tryQrBtn: string;
+  };
 }> = {
   vi: {
     appName: 'Chùa Linh Ứng Sơn Trà',
@@ -190,6 +226,42 @@ export const TRANSLATIONS: Record<SupportedLanguage, {
       servicesStatus: 'Trạng Thái Các Microservices',
       eventStream: 'Nhật Ký Sự Kiện Giữa Các Services (EventBus)',
       activeServices: 'Các Vi Dịch Vụ Đang Chạy'
+    },
+    common: {
+      mobileFrame: 'Khung điện thoại',
+      fullScreen: 'Toàn màn hình',
+      close: 'Đóng',
+      minutes: 'phút',
+      elevation: 'Độ cao',
+      heading: 'Hướng'
+    },
+    monumentView: {
+      heroBadge: 'Chùa Linh Ứng Bãi Bụt • Bán đảo Sơn Trà',
+      heroTitle: 'Hệ Thống Thuyết Minh Di Tích',
+      heroSubtitle: 'Khám phá 9 điểm di tích linh thiêng bằng giọng đọc thuyết minh đa ngôn ngữ tự động (tùy chọn 6 thứ tiếng), quét mã QR tại hiện trường và trải nghiệm không gian AR sống động.',
+      searchPlaceholder: 'Tìm theo tên tượng Phật, mã QR, lịch sử...',
+      categories: {
+        all: 'Tất cả',
+        monument: 'Tượng đài',
+        temple: 'Điện thờ',
+        relic: 'Xá lợi',
+        viewpoint: 'Vọng cảnh',
+        nature: 'Thiên nhiên'
+      },
+      audioGuideBtn: 'Nghe thuyết minh',
+      pauseBtn: 'Tạm dừng',
+      detailsBtn: 'Chi tiết',
+      autoVoiceTitle: 'Thuyết Minh Giọng Nói Tự Động',
+      autoVoiceSubtitle: 'Thời lượng ~{min} phút • Chọn ngôn ngữ nghe bên dưới',
+      listenNowBtn: 'Nghe ngay',
+      selectVoiceLangLabel: 'Chọn ngôn ngữ phát giọng đọc thuyết minh:',
+      historyTitle: 'Lịch Sử & Quá Trình Xây Dựng',
+      spiritualTitle: 'Ý Nghĩa Tâm Linh & Hạnh Nguyện',
+      architectureTitle: 'Đặc Điểm Kiến Trúc Điêu Khắc',
+      adviceTitle: 'Lời khuyên cho du khách:',
+      navigateBtn: 'Dẫn đường đến đây',
+      viewArBtn: 'Xem qua AR 3D',
+      tryQrBtn: 'Thử mã QR này'
     }
   },
   en: {
@@ -286,6 +358,42 @@ export const TRANSLATIONS: Record<SupportedLanguage, {
       servicesStatus: 'Microservices Health Status',
       eventStream: 'Inter-Service EventBus Activity',
       activeServices: 'Active Microservices'
+    },
+    common: {
+      mobileFrame: 'Phone View',
+      fullScreen: 'Full Screen',
+      close: 'Close',
+      minutes: 'mins',
+      elevation: 'Elevation',
+      heading: 'Heading'
+    },
+    monumentView: {
+      heroBadge: 'Linh Ung Pagoda Bai But • Son Tra Peninsula',
+      heroTitle: 'Heritage Audio Guide System',
+      heroSubtitle: 'Explore sacred Buddhist monuments with automated multilingual audio commentary (6 languages), on-site QR code scanning, and immersive 3D AR experiences.',
+      searchPlaceholder: 'Search by Buddha statue, QR code, history...',
+      categories: {
+        all: 'All',
+        monument: 'Monuments',
+        temple: 'Sanctuaries',
+        relic: 'Stupas',
+        viewpoint: 'Viewpoints',
+        nature: 'Nature'
+      },
+      audioGuideBtn: 'Listen Guide',
+      pauseBtn: 'Pause',
+      detailsBtn: 'Details',
+      autoVoiceTitle: 'Automated Voice Narration',
+      autoVoiceSubtitle: 'Duration ~{min} mins • Select voice language below',
+      listenNowBtn: 'Listen Now',
+      selectVoiceLangLabel: 'Choose voice narration language:',
+      historyTitle: 'History & Construction',
+      spiritualTitle: 'Spiritual Meaning & Vows',
+      architectureTitle: 'Architectural & Sculptural Features',
+      adviceTitle: 'Visitor Advice & Etiquette:',
+      navigateBtn: 'Navigate Here',
+      viewArBtn: 'View in 3D AR',
+      tryQrBtn: 'Test This QR'
     }
   },
   zh: {
@@ -382,6 +490,42 @@ export const TRANSLATIONS: Record<SupportedLanguage, {
       servicesStatus: '各微服务健康监控',
       eventStream: '服务间通信事件流（EventBus）',
       activeServices: '运行中的后端服务'
+    },
+    common: {
+      mobileFrame: '手机视窗',
+      fullScreen: '全屏显示',
+      close: '关闭',
+      minutes: '分钟',
+      elevation: '海拔',
+      heading: '方位'
+    },
+    monumentView: {
+      heroBadge: '山茶半岛白佛灵应寺',
+      heroTitle: '古迹多语种智能解说系统',
+      heroSubtitle: '探索9处圣景胜迹，体验6国语言自动化语音讲解、现场二维码即扫即听与AR实景沉浸体验。',
+      searchPlaceholder: '搜索佛像名称、二维码、文史典故...',
+      categories: {
+        all: '全部',
+        monument: '造像',
+        temple: '殿堂',
+        relic: '舍利塔',
+        viewpoint: '观景台',
+        nature: '生态自然'
+      },
+      audioGuideBtn: '语音导览',
+      pauseBtn: '暂停',
+      detailsBtn: '查看详情',
+      autoVoiceTitle: '智能语音解说',
+      autoVoiceSubtitle: '时长约 {min} 分钟 • 在下方切换发音语言',
+      listenNowBtn: '立即聆听',
+      selectVoiceLangLabel: '选择语音解说发音语言：',
+      historyTitle: '历史渊源与建寺历程',
+      spiritualTitle: '宗教内涵与大愿信仰',
+      architectureTitle: '雕塑造像与建筑特征',
+      adviceTitle: '朝拜参访提示：',
+      navigateBtn: '步行导航至此',
+      viewArBtn: 'AR 3D实景',
+      tryQrBtn: '模拟此二维码'
     }
   },
   ko: {
@@ -478,6 +622,42 @@ export const TRANSLATIONS: Record<SupportedLanguage, {
       servicesStatus: '마이크로서비스 상태 모니터링',
       eventStream: '서비스 간 실시간 이벤트 로그',
       activeServices: '활성화된 서비스'
+    },
+    common: {
+      mobileFrame: '모바일 뷰',
+      fullScreen: '전체 화면',
+      close: '닫기',
+      minutes: '분',
+      elevation: '해발',
+      heading: '방위'
+    },
+    monumentView: {
+      heroBadge: '손트라 반도 린응사 바이붓',
+      heroTitle: '유적지 스마트 오디오 가이드',
+      heroSubtitle: '6개 언어 다국어 음성 해설, 현장 QR 코드 스캔, 3D AR 체험으로 9대 성지를 깊이 있게 탐방하세요.',
+      searchPlaceholder: '불상 명칭, QR 코드, 사찰 역사 검색...',
+      categories: {
+        all: '전체',
+        monument: '불상·조각',
+        temple: '법당',
+        relic: '사리탑',
+        viewpoint: '전망대',
+        nature: '자연 경관'
+      },
+      audioGuideBtn: '음성 해설 듣기',
+      pauseBtn: '일시정지',
+      detailsBtn: '상세보기',
+      autoVoiceTitle: '자동 음성 해설 시스템',
+      autoVoiceSubtitle: '소요시간 약 {min}분 • 아래에서 재생 언어 선택',
+      listenNowBtn: '지금 듣기',
+      selectVoiceLangLabel: '음성 해설 언어 선택:',
+      historyTitle: '역사 및 건립 과정',
+      spiritualTitle: '불교적 의미와 서원',
+      architectureTitle: '건축 및 조각 양식 특징',
+      adviceTitle: '참배객 안내 및 유의사항:',
+      navigateBtn: '이곳으로 길안내',
+      viewArBtn: 'AR 3D로 보기',
+      tryQrBtn: 'QR 스캔 시뮬레이션'
     }
   },
   ja: {
@@ -574,6 +754,42 @@ export const TRANSLATIONS: Record<SupportedLanguage, {
       servicesStatus: '各サービスの稼働状況',
       eventStream: 'サービス間通信ログ（EventBus）',
       activeServices: '稼働中サービス'
+    },
+    common: {
+      mobileFrame: 'スマホ表示',
+      fullScreen: '全画面表示',
+      close: '閉じる',
+      minutes: '分',
+      elevation: '標高',
+      heading: '方角'
+    },
+    monumentView: {
+      heroBadge: 'ソンチャ半島 霊応寺（リンウン寺）',
+      heroTitle: '史跡スマート音声ガイドシステム',
+      heroSubtitle: '6ヶ国語対応の自動音声解説、現地QRコードスキャン、没入型3D ARで境内9ヶ所の名所を巡る。',
+      searchPlaceholder: '仏像名、QRコード、歴史を検索...',
+      categories: {
+        all: 'すべて',
+        monument: '仏像・彫刻',
+        temple: '本堂・諸堂',
+        relic: '舎利塔',
+        viewpoint: '展望所',
+        nature: '自然'
+      },
+      audioGuideBtn: '音声解説を聞く',
+      pauseBtn: '一時停止',
+      detailsBtn: '詳細を見る',
+      autoVoiceTitle: '自動音声ガイド',
+      autoVoiceSubtitle: '所要時間 約{min}分 • 音声言語を下で選択',
+      listenNowBtn: '今すぐ再生',
+      selectVoiceLangLabel: '音声解説の言語を選択：',
+      historyTitle: '歴史と建立の経緯',
+      spiritualTitle: '信仰の意義と祈願',
+      architectureTitle: '建築様式と彫刻の特徴',
+      adviceTitle: '参拝者へのアドバイス：',
+      navigateBtn: 'ここへ案内',
+      viewArBtn: 'AR 3Dで体験',
+      tryQrBtn: 'このQRをテスト'
     }
   },
   fr: {
@@ -670,6 +886,42 @@ export const TRANSLATIONS: Record<SupportedLanguage, {
       servicesStatus: 'État des microservices',
       eventStream: 'Journal des événements EventBus',
       activeServices: 'Microservices actifs'
+    },
+    common: {
+      mobileFrame: 'Vue Mobile',
+      fullScreen: 'Plein Écran',
+      close: 'Fermer',
+      minutes: 'min',
+      elevation: 'Altitude',
+      heading: 'Cap'
+    },
+    monumentView: {
+      heroBadge: 'Pagode Linh Ung Bai But • Péninsule de Son Tra',
+      heroTitle: 'Système d\'Audioguide Patrimonial',
+      heroSubtitle: 'Découvrez 9 sites sacrés avec audioguide multilingue automatique (6 langues), scan de QR code sur site et réalité augmentée 3D.',
+      searchPlaceholder: 'Rechercher par statue, QR code, histoire...',
+      categories: {
+        all: 'Tous',
+        monument: 'Monuments',
+        temple: 'Sanctuaires',
+        relic: 'Stupas',
+        viewpoint: 'Points de vue',
+        nature: 'Nature'
+      },
+      audioGuideBtn: 'Écouter le guide',
+      pauseBtn: 'Pause',
+      detailsBtn: 'Détails',
+      autoVoiceTitle: 'Narration Vocale Automatique',
+      autoVoiceSubtitle: 'Durée ~{min} min • Sélectionnez la langue ci-dessous',
+      listenNowBtn: 'Écouter maintenant',
+      selectVoiceLangLabel: 'Choisir la langue de narration vocale :',
+      historyTitle: 'Histoire et Construction',
+      spiritualTitle: 'Signification Spirituelle et Vœux',
+      architectureTitle: 'Architecture et Sculptures',
+      adviceTitle: 'Conseils aux visiteurs :',
+      navigateBtn: 'Y aller',
+      viewArBtn: 'Voir en RA 3D',
+      tryQrBtn: 'Tester ce QR'
     }
   }
 };

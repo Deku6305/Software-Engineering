@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { MonumentPoiData, SupportedLanguage } from '../types/index.ts';
+import { TRANSLATIONS } from '../data/translations.ts';
 import { Play, Pause, Square, Volume2, Info, Globe, ChevronUp } from 'lucide-react';
 
 interface AudioPlayerBarProps {
   currentPoi: MonumentPoiData | null;
+  currentLang?: SupportedLanguage;
   isPlaying: boolean;
   progress: number;
   currentTimeSec: number;
@@ -29,6 +31,7 @@ const LANGUAGES: { code: SupportedLanguage; label: string; flag: string }[] = [
 
 export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
   currentPoi,
+  currentLang = 'vi',
   isPlaying,
   progress,
   currentTimeSec,
@@ -43,6 +46,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
   onOpenDetails,
 }) => {
   const [showLangMenu, setShowLangMenu] = useState(false);
+  const t = TRANSLATIONS[currentLang];
 
   if (!currentPoi) return null;
 
@@ -98,7 +102,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
               </h4>
             </div>
             <p className="text-[11px] text-stone-400 truncate">
-              {formatTime(currentTimeSec)} / {formatTime(durationSec)} • Giọng đọc: {currentLangObj.flag} {currentLangObj.label}
+              {formatTime(currentTimeSec)} / {formatTime(durationSec)} • {currentLang === 'vi' ? 'Giọng đọc' : 'Voice'}: {currentLangObj.flag} {currentLangObj.label}
             </p>
           </div>
         </div>
@@ -110,7 +114,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
             <button
               onClick={() => setShowLangMenu(!showLangMenu)}
               className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-stone-900 border border-stone-800 hover:border-amber-500/50 text-xs font-semibold text-amber-300 transition-all shadow-sm"
-              title="Chọn ngôn ngữ giọng đọc thuyết minh"
+              title={t.monumentView.selectVoiceLangLabel}
             >
               <Globe className="w-3.5 h-3.5 text-amber-400" />
               <span>{currentLangObj.flag}</span>
@@ -122,7 +126,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
             {showLangMenu && (
               <div className="absolute right-0 bottom-full mb-2 w-48 bg-stone-900 border border-amber-900/60 rounded-xl shadow-2xl p-1.5 z-50 animate-in fade-in slide-in-from-bottom-2 duration-150">
                 <div className="px-2.5 py-1 text-[10px] font-bold text-stone-400 uppercase tracking-wider border-b border-stone-800 mb-1">
-                  Chọn Ngôn Ngữ Thuyết Minh
+                  {t.audioGuide.voiceSettings}
                 </div>
                 {LANGUAGES.map((lang) => (
                   <button
@@ -131,11 +135,10 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
                       onChangeNarrationLang(lang.code);
                       setShowLangMenu(false);
                     }}
-                    className={`w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-xs transition-colors ${
-                      narrationLang === lang.code
-                        ? 'bg-amber-500/25 text-amber-300 font-bold'
-                        : 'text-stone-300 hover:bg-stone-800'
-                    }`}
+                    className={`w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-xs transition-colors ${narrationLang === lang.code
+                      ? 'bg-amber-500/25 text-amber-300 font-bold'
+                      : 'text-stone-300 hover:bg-stone-800'
+                      }`}
                   >
                     <span className="flex items-center gap-2">
                       <span>{lang.flag}</span>
@@ -152,7 +155,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
           <button
             onClick={onCycleSpeed}
             className="px-2 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-[11px] font-bold text-amber-400 hover:border-amber-500/50 transition-colors"
-            title="Đổi tốc độ đọc"
+            title={t.audioGuide.speed}
           >
             {playbackSpeed}x
           </button>
@@ -161,7 +164,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
           <button
             onClick={onPlayPause}
             className="w-10 h-10 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-stone-950 flex items-center justify-center shadow-lg shadow-amber-500/30 hover:scale-105 active:scale-95 transition-all"
-            aria-label={isPlaying ? 'Tạm dừng' : 'Phát thuyết minh'}
+            aria-label={isPlaying ? t.audioGuide.pause : t.audioGuide.play}
           >
             {isPlaying ? (
               <Pause className="w-5 h-5 fill-current" />
@@ -174,7 +177,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
           <button
             onClick={onStop}
             className="p-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-400 hover:text-stone-100 hover:border-stone-700 transition-colors"
-            title="Dừng thuyết minh"
+            title={t.audioGuide.stop}
           >
             <Square className="w-4 h-4" />
           </button>
@@ -183,7 +186,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
           <button
             onClick={() => onOpenDetails(currentPoi)}
             className="p-2 rounded-lg bg-stone-900 border border-stone-800 text-amber-400 hover:bg-stone-800 transition-colors hidden xs:block"
-            title="Xem chi tiết thuyết minh"
+            title={t.audioGuide.readTranscript}
           >
             <Info className="w-4 h-4" />
           </button>

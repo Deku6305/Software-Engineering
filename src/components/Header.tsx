@@ -87,11 +87,10 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   key={lang.code}
                   onClick={() => onLanguageChange(lang.code)}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${
-                    currentLang === lang.code
-                      ? 'bg-amber-500/20 text-amber-300 font-semibold'
-                      : 'text-stone-300 hover:bg-stone-800/80'
-                  }`}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${currentLang === lang.code
+                    ? 'bg-amber-500/20 text-amber-300 font-semibold'
+                    : 'text-stone-300 hover:bg-stone-800/80'
+                    }`}
                 >
                   <span className="flex items-center gap-2">
                     <span>{lang.flag}</span>
@@ -107,17 +106,17 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onToggleMobileFrame}
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-stone-900 border border-stone-800 hover:border-stone-700 text-xs text-stone-300 hover:text-stone-100 transition-colors"
-            title={isMobileFrame ? 'Chuyển sang xem toàn màn hình' : 'Chuyển sang khung điện thoại'}
+            title={isMobileFrame ? t.common.fullScreen : t.common.mobileFrame}
           >
             {isMobileFrame ? (
               <>
                 <Monitor className="w-3.5 h-3.5 text-amber-400" />
-                <span className="hidden md:inline">Toàn màn hình</span>
+                <span className="hidden md:inline">{t.common.fullScreen}</span>
               </>
             ) : (
               <>
                 <Smartphone className="w-3.5 h-3.5 text-amber-400" />
-                <span className="hidden md:inline">Khung điện thoại</span>
+                <span className="hidden md:inline">{t.common.mobileFrame}</span>
               </>
             )}
           </button>

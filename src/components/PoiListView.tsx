@@ -74,12 +74,12 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
   });
 
   const categories = [
-    { id: 'all', label: currentLang === 'vi' ? 'Tất cả' : 'All' },
-    { id: 'monument', label: currentLang === 'vi' ? 'Tượng đài' : 'Monuments' },
-    { id: 'temple', label: currentLang === 'vi' ? 'Điện thờ' : 'Sanctuaries' },
-    { id: 'relic', label: currentLang === 'vi' ? 'Xá lợi' : 'Stupas' },
-    { id: 'viewpoint', label: currentLang === 'vi' ? 'Vọng cảnh' : 'Viewpoints' },
-    { id: 'nature', label: currentLang === 'vi' ? 'Thiên nhiên' : 'Nature' },
+    { id: 'all', label: t.monumentView.categories.all },
+    { id: 'monument', label: t.monumentView.categories.monument },
+    { id: 'temple', label: t.monumentView.categories.temple },
+    { id: 'relic', label: t.monumentView.categories.relic },
+    { id: 'viewpoint', label: t.monumentView.categories.viewpoint },
+    { id: 'nature', label: t.monumentView.categories.nature },
   ];
 
   return (
@@ -129,11 +129,10 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
-                selectedCategory === cat.id
-                  ? 'bg-amber-500 text-stone-950 font-bold shadow-md shadow-amber-500/20'
-                  : 'bg-stone-900 text-stone-400 border border-stone-800 hover:border-stone-700 hover:text-stone-200'
-              }`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${selectedCategory === cat.id
+                ? 'bg-amber-500 text-stone-950 font-bold shadow-md shadow-amber-500/20'
+                : 'bg-stone-900 text-stone-400 border border-stone-800 hover:border-stone-700 hover:text-stone-200'
+                }`}
             >
               {cat.label}
             </button>
@@ -148,11 +147,10 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
           return (
             <div
               key={poi.id}
-              className={`group rounded-2xl overflow-hidden bg-stone-900/90 border transition-all duration-300 flex flex-col hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-950/20 ${
-                isThisActive
-                  ? 'border-amber-500 ring-2 ring-amber-500/30 shadow-lg'
-                  : 'border-stone-800/80 hover:border-amber-500/40'
-              }`}
+              className={`group rounded-2xl overflow-hidden bg-stone-900/90 border transition-all duration-300 flex flex-col hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-950/20 ${isThisActive
+                ? 'border-amber-500 ring-2 ring-amber-500/30 shadow-lg'
+                : 'border-stone-800/80 hover:border-amber-500/40'
+                }`}
             >
               {/* Image & Badges */}
               <div className="relative h-48 w-full overflow-hidden bg-stone-950">
@@ -173,7 +171,7 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
                 {/* Duration & Elevation */}
                 <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2 py-1 rounded-lg bg-stone-950/80 backdrop-blur-md text-[11px] text-stone-300 border border-stone-800">
                   <Clock className="w-3 h-3 text-amber-400" />
-                  <span>{Math.round(poi.audioDurationSeconds / 60)} phút</span>
+                  <span>{Math.round(poi.audioDurationSeconds / 60)} {t.common.minutes}</span>
                 </div>
 
                 {/* Title and Tagline on Image bottom */}
@@ -196,12 +194,12 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
                 <div className="flex items-center gap-2 text-[11px] text-stone-400 pt-1 border-t border-stone-800/60">
                   <span className="flex items-center gap-1">
                     <Mountain className="w-3 h-3 text-amber-400" />
-                    Độ cao {poi.coordinates.elevationMeters}m
+                    {t.common.elevation} {poi.coordinates.elevationMeters}m
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1">
                     <Compass className="w-3 h-3 text-amber-400" />
-                    Hướng {poi.coordinates.compassBearing}°
+                    {t.common.heading} {poi.coordinates.compassBearing}°
                   </span>
                 </div>
 
@@ -210,21 +208,20 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
                   {/* Play Audio Button */}
                   <button
                     onClick={() => onPlayPoiAudio(poi)}
-                    className={`flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
-                      isThisActive && isPlayingAudio
-                        ? 'bg-amber-500 text-stone-950 font-bold shadow-md'
-                        : 'bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30'
-                    }`}
+                    className={`flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${isThisActive && isPlayingAudio
+                      ? 'bg-amber-500 text-stone-950 font-bold shadow-md'
+                      : 'bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30'
+                      }`}
                   >
                     {isThisActive && isPlayingAudio ? (
                       <>
                         <Pause className="w-3.5 h-3.5 fill-current" />
-                        <span>Tạm dừng</span>
+                        <span>{t.monumentView.pauseBtn}</span>
                       </>
                     ) : (
                       <>
                         <Volume2 className="w-3.5 h-3.5" />
-                        <span>Nghe thuyết minh</span>
+                        <span>{t.monumentView.audioGuideBtn}</span>
                       </>
                     )}
                   </button>
@@ -234,7 +231,7 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
                     onClick={() => onSelectPoiModal(poi)}
                     className="flex items-center justify-center gap-1 px-3 py-2 rounded-xl text-xs font-medium bg-stone-800 hover:bg-stone-750 text-stone-200 border border-stone-700/80 hover:border-stone-600 transition-colors"
                   >
-                    <span>Chi tiết</span>
+                    <span>{t.monumentView.detailsBtn}</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -261,7 +258,7 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
               <button
                 onClick={onCloseModal}
                 className="absolute top-4 right-4 p-2 rounded-full bg-stone-950/80 text-stone-300 hover:text-white border border-stone-800 hover:scale-105 transition-all"
-                title="Đóng"
+                title={t.common.close}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -293,10 +290,10 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
                     </div>
                     <div>
                       <h4 className="text-sm font-bold text-amber-200">
-                        Thuyết Minh Giọng Nói Tự Động
+                        {t.monumentView.autoVoiceTitle}
                       </h4>
                       <p className="text-xs text-stone-400">
-                        Thời lượng ~{Math.round(selectedPoiForModal.audioDurationSeconds / 60)} phút • Chọn ngôn ngữ nghe bên dưới
+                        {t.monumentView.autoVoiceSubtitle.replace('{min}', String(Math.round(selectedPoiForModal.audioDurationSeconds / 60)))}
                       </p>
                     </div>
                   </div>
@@ -308,12 +305,12 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
                     {activePoiId === selectedPoiForModal.id && isPlayingAudio ? (
                       <>
                         <Pause className="w-4 h-4 fill-current" />
-                        <span>Tạm dừng</span>
+                        <span>{t.monumentView.pauseBtn}</span>
                       </>
                     ) : (
                       <>
                         <Play className="w-4 h-4 fill-current" />
-                        <span>Nghe ngay</span>
+                        <span>{t.monumentView.listenNowBtn}</span>
                       </>
                     )}
                   </button>
@@ -323,7 +320,7 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
                 <div className="pt-2 border-t border-amber-500/20">
                   <div className="text-[11px] font-semibold text-amber-300 mb-1.5 flex items-center gap-1.5">
                     <Globe className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Chọn ngôn ngữ phát giọng đọc thuyết minh:</span>
+                    <span>{t.monumentView.selectVoiceLangLabel}</span>
                   </div>
                   <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
                     {NARRATION_LANGUAGES.map((lang) => {
@@ -335,11 +332,10 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
                             onChangeNarrationLang(lang.code);
                             onPlayPoiAudio(selectedPoiForModal, lang.code);
                           }}
-                          className={`flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg text-xs transition-all border ${
-                            isSelected
-                              ? 'bg-amber-500 text-stone-950 font-bold border-amber-400 shadow-md'
-                              : 'bg-stone-950/80 text-stone-300 border-stone-800 hover:border-amber-500/40 hover:bg-stone-850'
-                          }`}
+                          className={`flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg text-xs transition-all border ${isSelected
+                            ? 'bg-amber-500 text-stone-950 font-bold border-amber-400 shadow-md'
+                            : 'bg-stone-950/80 text-stone-300 border-stone-800 hover:border-amber-500/40 hover:bg-stone-850'
+                            }`}
                         >
                           <span>{lang.flag}</span>
                           <span className="text-[11px] truncate">{lang.label}</span>
@@ -353,7 +349,7 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
               {/* Lịch sử & Nguồn gốc */}
               <div className="space-y-2">
                 <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4" /> Lịch Sử & Quá Trình Xây Dựng
+                  <Sparkles className="w-4 h-4" /> {t.monumentView.historyTitle}
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
                   {selectedPoiForModal.fullHistory}
@@ -363,7 +359,7 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
               {/* Ý nghĩa tâm linh */}
               <div className="space-y-2 p-4 rounded-xl bg-stone-950/60 border border-stone-800">
                 <h3 className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
-                  🪷 Ý Nghĩa Tâm Linh & Hạnh Nguyện
+                  🪷 {t.monumentView.spiritualTitle}
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-300 leading-relaxed italic">
                   "{selectedPoiForModal.spiritualMeaning}"
@@ -374,7 +370,7 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
               {selectedPoiForModal.architecturalHighlights?.length > 0 && (
                 <div className="space-y-2">
                   <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider">
-                    Đặc Điểm Kiến Trúc Điêu Khắc
+                    {t.monumentView.architectureTitle}
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {selectedPoiForModal.architecturalHighlights.map((highlight, idx) => (
@@ -392,7 +388,7 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
 
               {/* Lưu ý khi viếng thăm */}
               <div className="p-3.5 rounded-xl bg-amber-950/20 border border-amber-900/40 text-xs text-amber-200/90 leading-relaxed">
-                <strong className="text-amber-300 block mb-1">💡 Lời khuyên cho du khách:</strong>
+                <strong className="text-amber-300 block mb-1">💡 {t.monumentView.adviceTitle}</strong>
                 {selectedPoiForModal.visitingTips}
               </div>
 
@@ -406,7 +402,7 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
                   className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-stone-950 font-bold text-xs transition-colors"
                 >
                   <Navigation className="w-4 h-4" />
-                  <span>Dẫn đường đến đây</span>
+                  <span>{t.monumentView.navigateBtn}</span>
                 </button>
 
                 <button
@@ -417,7 +413,7 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
                   className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition-colors"
                 >
                   <Compass className="w-4 h-4" />
-                  <span>Xem qua AR 3D</span>
+                  <span>{t.monumentView.viewArBtn}</span>
                 </button>
 
                 <button
@@ -428,7 +424,7 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
                   className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-stone-800 hover:bg-stone-700 text-amber-300 font-semibold text-xs border border-stone-700 transition-colors"
                 >
                   <QrCode className="w-4 h-4" />
-                  <span>Thử mã QR này</span>
+                  <span>{t.monumentView.tryQrBtn}</span>
                 </button>
               </div>
             </div>
