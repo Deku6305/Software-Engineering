@@ -81,6 +81,7 @@ class ApiClient {
     ticketId: string;
     quantity: number;
     visitDate: string;
+    lang?: SupportedLanguage;
   }): Promise<BookingOrderData> {
     const res = await fetch(`${this.baseUrl}/bookings`, {
       method: 'POST',

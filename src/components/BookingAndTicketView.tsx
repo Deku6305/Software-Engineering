@@ -183,8 +183,8 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                   key={pkg.id}
                   onClick={() => setSelectedPkg(pkg)}
                   className={`rounded-2xl p-4 border transition-all cursor-pointer flex flex-col justify-between ${isSelected
-                      ? 'bg-amber-500/15 border-amber-500 ring-2 ring-amber-500/40 shadow-xl'
-                      : 'bg-stone-900/90 border-stone-800 hover:border-amber-500/40 hover:bg-stone-850'
+                    ? 'bg-amber-500/15 border-amber-500 ring-2 ring-amber-500/40 shadow-xl'
+                    : 'bg-stone-900/90 border-stone-800 hover:border-amber-500/40 hover:bg-stone-850'
                     }`}
                 >
                   <div className="space-y-2.5">
@@ -238,8 +238,8 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
 
                     <div
                       className={`w-5 h-5 rounded-full border flex items-center justify-center ${isSelected
-                          ? 'border-amber-400 bg-amber-500 text-stone-950'
-                          : 'border-stone-600'
+                        ? 'border-amber-400 bg-amber-500 text-stone-950'
+                        : 'border-stone-600'
                         }`}
                     >
                       {isSelected && <span className="text-xs font-bold">✓</span>}
@@ -434,8 +434,8 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                   key={channel.id}
                   onClick={() => handleChannelSwitch(channel.id)}
                   className={`p-2 rounded-xl text-center border transition-all text-xs font-medium ${selectedPaymentChannel === channel.id
-                      ? 'bg-amber-500/20 border-amber-500 text-amber-300 font-bold'
-                      : 'bg-stone-950 border-stone-800 text-stone-400 hover:text-stone-200'
+                    ? 'bg-amber-500/20 border-amber-500 text-amber-300 font-bold'
+                    : 'bg-stone-950 border-stone-800 text-stone-400 hover:text-stone-200'
                     }`}
                 >
                   <div className="text-base">{channel.icon}</div>

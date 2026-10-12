@@ -6,8 +6,8 @@ import { Globe, Volume2, Smartphone, Monitor, Sparkles } from 'lucide-react';
 interface HeaderProps {
   currentLang: SupportedLanguage;
   onLanguageChange: (lang: SupportedLanguage) => void;
-  isMobileFrame: boolean;
-  onToggleMobileFrame: () => void;
+  isMobileFrame?: boolean;
+  onToggleMobileFrame?: () => void;
   isPlayingAudio: boolean;
   activePoiName?: string;
   onOpenPlayer: () => void;
@@ -103,23 +103,25 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Mobile frame preview toggle */}
-          <button
-            onClick={onToggleMobileFrame}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-stone-900 border border-stone-800 hover:border-stone-700 text-xs text-stone-300 hover:text-stone-100 transition-colors"
-            title={isMobileFrame ? t.common.fullScreen : t.common.mobileFrame}
-          >
-            {isMobileFrame ? (
-              <>
-                <Monitor className="w-3.5 h-3.5 text-amber-400" />
-                <span className="hidden md:inline">{t.common.fullScreen}</span>
-              </>
-            ) : (
-              <>
-                <Smartphone className="w-3.5 h-3.5 text-amber-400" />
-                <span className="hidden md:inline">{t.common.mobileFrame}</span>
-              </>
-            )}
-          </button>
+          {onToggleMobileFrame && (
+            <button
+              onClick={onToggleMobileFrame}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-stone-900 border border-stone-800 hover:border-stone-700 text-xs text-stone-300 hover:text-stone-100 transition-colors"
+              title={isMobileFrame ? t.common.fullScreen : t.common.mobileFrame}
+            >
+              {isMobileFrame ? (
+                <>
+                  <Monitor className="w-3.5 h-3.5 text-amber-400" />
+                  <span className="hidden md:inline">{t.common.fullScreen}</span>
+                </>
+              ) : (
+                <>
+                  <Smartphone className="w-3.5 h-3.5 text-amber-400" />
+                  <span className="hidden md:inline">{t.common.mobileFrame}</span>
+                </>
+              )}
+            </button>
+          )}
         </div>
       </div>
     </header>

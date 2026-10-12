@@ -90,13 +90,13 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
         <div className="relative z-10 max-w-2xl space-y-2.5">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>Chùa Linh Ứng Bãi Bụt • Bán đảo Sơn Trà</span>
+            <span>{t.monumentView.heroBadge}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-amber-100 tracking-tight font-serif-sacred">
-            Hệ Thống Thuyết Minh Di Tích
+            {t.monumentView.heroTitle}
           </h2>
           <p className="text-sm text-stone-300 leading-relaxed">
-            Khám phá 9 điểm di tích linh thiêng bằng giọng đọc thuyết minh đa ngôn ngữ tự động (tùy chọn 6 thứ tiếng), quét mã QR tại hiện trường và trải nghiệm không gian AR sống động.
+            {t.monumentView.heroSubtitle}
           </p>
         </div>
       </div>
@@ -110,7 +110,7 @@ export const PoiListView: React.FC<PoiListViewProps> = ({
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Tìm theo tên tượng Phật, mã QR, lịch sử..."
+            placeholder={t.monumentView.searchPlaceholder}
             className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-900/90 border border-stone-800 focus:border-amber-500/60 focus:outline-none text-xs sm:text-sm text-stone-200 placeholder:text-stone-500"
           />
           {searchTerm && (

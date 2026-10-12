@@ -240,8 +240,8 @@ export const ArExperienceView: React.FC<ArExperienceViewProps> = ({
               <button
                 onClick={() => setShowLotusHalo(!showLotusHalo)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${showLotusHalo
-                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/50'
-                    : 'bg-stone-900 text-stone-400 border-stone-800'
+                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/50'
+                  : 'bg-stone-900 text-stone-400 border-stone-800'
                   }`}
               >
                 {t.ar.haloBtn}
@@ -250,8 +250,8 @@ export const ArExperienceView: React.FC<ArExperienceViewProps> = ({
               <button
                 onClick={() => setShowBlessingParticles(!showBlessingParticles)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${showBlessingParticles
-                    ? 'bg-purple-500/20 text-purple-300 border-purple-500/50'
-                    : 'bg-stone-900 text-stone-400 border-stone-800'
+                  ? 'bg-purple-500/20 text-purple-300 border-purple-500/50'
+                  : 'bg-stone-900 text-stone-400 border-stone-800'
                   }`}
               >
                 {t.ar.particlesBtn}

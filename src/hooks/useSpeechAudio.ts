@@ -278,6 +278,7 @@ export function useSpeechAudio(initialLang: SupportedLanguage = 'vi') {
 
   return {
     currentPoi,
+    setCurrentPoi,
     isPlaying,
     playbackSpeed,
     progress,

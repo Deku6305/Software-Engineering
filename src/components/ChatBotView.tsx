@@ -176,22 +176,20 @@ export const ChatBotView: React.FC<ChatBotViewProps> = ({
             >
               {/* Avatar */}
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs ${
-                  isUser
+                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs ${isUser
                     ? 'bg-amber-500 text-stone-950 font-bold'
                     : 'bg-stone-900 border border-amber-500/40 text-amber-300'
-                }`}
+                  }`}
               >
                 {isUser ? <User className="w-4 h-4" /> : <span>🪷</span>}
               </div>
 
               {/* Message Bubble */}
               <div
-                className={`max-w-[85%] sm:max-w-[75%] rounded-2xl p-3.5 space-y-1.5 ${
-                  isUser
+                className={`max-w-[85%] sm:max-w-[75%] rounded-2xl p-3.5 space-y-1.5 ${isUser
                     ? 'bg-gradient-to-r from-amber-600 to-amber-700 text-stone-950 font-medium rounded-tr-none shadow-md'
                     : 'bg-stone-900/90 border border-stone-800 text-stone-200 rounded-tl-none shadow-lg'
-                }`}
+                  }`}
               >
                 <div className="text-xs sm:text-sm whitespace-pre-line leading-relaxed">
                   {msg.content}

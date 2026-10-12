@@ -150,7 +150,7 @@ class NavigationService {
         ja: '120分',
         fr: '120 min'
       },
-      tour_thien_dinh_tam_linh_90m: {
+      tour_hoang_hon_thien_dinh_1h30: {
         vi: '90 phút',
         en: '90 mins',
         zh: '90分钟',
@@ -177,13 +177,13 @@ class NavigationService {
         ja: 'おすすめ',
         fr: 'Recommandé'
       },
-      tour_thien_dinh_tam_linh_90m: {
-        vi: 'Tĩnh lặng & Thiên nhiên',
-        en: 'Zen & Nature',
-        zh: '禅修自然',
-        ko: '명상과 힐링',
-        ja: '瞑想と自然',
-        fr: 'Méditation & Nature'
+      tour_hoang_hon_thien_dinh_1h30: {
+        vi: 'Hoàng hôn lãng mạn',
+        en: 'Romantic Sunset',
+        zh: '暮色禅风',
+        ko: '일몰 힐링',
+        ja: '夕陽の絶景',
+        fr: 'Coucher de soleil'
       }
     };
 

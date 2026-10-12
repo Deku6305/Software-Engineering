@@ -60,6 +60,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
     apiClient.getItineraries(currentLang).then((res) => {
       setItineraries(res);
     });
+    fetchRoute(startPoiId, destPoiId);
   }, [currentLang]);
 
   useEffect(() => {
@@ -134,7 +135,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
         {/* Live GPS simulated status badge */}
         <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-stone-950/80 border border-emerald-500/40 text-xs font-medium text-emerald-300 shrink-0">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-          <span>Đang bám sát vị trí: Vùng an toàn chùa Linh Ứng</span>
+          <span>{t.map.safeZoneStatus}</span>
         </div>
       </div>
 
@@ -143,9 +144,9 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>{t.map.itineraryTitle} (Lựa chọn lộ trình tối ưu)</span>
+            <span>{t.map.itineraryTitle} {t.map.itineraryOptimal}</span>
           </h3>
-          <span className="text-[11px] text-stone-400">Chạm để kích hoạt hướng dẫn</span>
+          <span className="text-[11px] text-stone-400">{t.map.tapToActivate}</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -155,11 +156,10 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
               <button
                 key={it.id}
                 onClick={() => handleSelectItinerary(it)}
-                className={`p-3.5 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col justify-between ${
-                  isSelected
+                className={`p-3.5 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col justify-between ${isSelected
                     ? 'bg-amber-500/20 border-amber-500 ring-2 ring-amber-500/40 shadow-lg shadow-amber-500/20'
                     : 'bg-stone-900/90 border-stone-800 hover:border-amber-500/40 hover:bg-stone-850'
-                }`}
+                  }`}
               >
                 <div>
                   <div className="flex items-center justify-between gap-1 mb-1">
@@ -181,10 +181,10 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
                 <div className="flex items-center justify-between pt-2.5 mt-2 border-t border-stone-800 text-[11px] text-stone-300">
                   <span className="flex items-center gap-1">
                     <Footprints className="w-3 h-3 text-amber-400" />
-                    {it.distanceMeters}m ({it.poiSequence.length} điểm)
+                    {it.distanceMeters}m ({it.poiSequence.length} {t.map.pointsCount})
                   </span>
                   <span className="text-amber-400 font-semibold flex items-center gap-0.5">
-                    {isSelected ? 'Đang đi' : 'Chọn tour'} <ChevronRight className="w-3 h-3" />
+                    {isSelected ? t.map.inProgress : t.map.selectTour} <ChevronRight className="w-3 h-3" />
                   </span>
                 </div>
               </button>
@@ -200,17 +200,17 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
           {/* Compass Rose */}
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-stone-950/85 backdrop-blur-md border border-stone-800 text-xs font-semibold text-stone-300 pointer-events-auto">
             <Compass className="w-4 h-4 text-amber-400 animate-spin-slow" />
-            <span>Bắc Sơn Trà (350° N)</span>
+            <span>{t.map.compassNorth}</span>
           </div>
 
           {/* Reset position button */}
           <button
             onClick={() => setUserPos({ x: 28, y: 68 })}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-950/85 backdrop-blur-md border border-stone-800 hover:border-amber-500/50 text-xs font-medium text-amber-300 pointer-events-auto transition-colors"
-            title="Đưa vị trí bạn về Cổng Tam Quan"
+            title={t.map.resetPositionTitle}
           >
             <LocateFixed className="w-3.5 h-3.5" />
-            <span>Về điểm xuất phát</span>
+            <span>{t.map.resetPositionBtn}</span>
           </button>
         </div>
 
@@ -360,7 +360,9 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
             <g transform="translate(160, 340)">
               <circle r="12" fill="#065f46" stroke="#10b981" strokeWidth="1.5" />
               <text x="0" y="4" textAnchor="middle" fontSize="10" fill="#ffffff">🚌</text>
-              <text x="0" y="24" textAnchor="middle" fontSize="9" fill="#a7f3d0" fontWeight="bold">Xe điện</text>
+              <text x="0" y="24" textAnchor="middle" fontSize="9" fill="#a7f3d0" fontWeight="bold">
+                {t.map.legend.buggy}
+              </text>
             </g>
 
             {/* Restrooms */}
@@ -412,8 +414,8 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
                       isSelectedDest
                         ? '#d97706'
                         : isSelectedStart
-                        ? '#059669'
-                        : '#1c1917'
+                          ? '#059669'
+                          : '#1c1917'
                     }
                     stroke={isSelectedDest ? '#fef08a' : '#d97706'}
                     strokeWidth="2.5"
@@ -431,12 +433,12 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
                     {poi.id === 'poi_quanam_67m'
                       ? '🪷'
                       : poi.category === 'temple'
-                      ? '⛩️'
-                      : poi.category === 'relic'
-                      ? '🏛️'
-                      : poi.category === 'nature'
-                      ? '🌳'
-                      : '🌊'}
+                        ? '⛩️'
+                        : poi.category === 'relic'
+                          ? '🏛️'
+                          : poi.category === 'nature'
+                            ? '🌳'
+                            : '🌊'}
                   </text>
 
                   {/* Name Label Plate */}
@@ -474,7 +476,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
               <circle r="14" fill="#3b82f6" opacity="0.3" className="animate-ping" />
               <circle r="8" fill="#2563eb" stroke="#ffffff" strokeWidth="2.5" />
               <text x="0" y="-12" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#60a5fa">
-                Bạn ở đây
+                {t.map.youAreHere}
               </text>
             </g>
           </svg>
@@ -501,7 +503,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
           </div>
 
           <span className="text-stone-400">
-            *Nhấp trực tiếp vào bất kỳ tượng để bắt đầu chỉ đường
+            {t.map.clickPoiHint}
           </span>
         </div>
       </div>
@@ -514,14 +516,14 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500 text-stone-950">
-                  Lộ trình tới {destinationPoi.name}
+                  {t.map.routeTo} {destinationPoi.name}
                 </span>
                 <span className="text-xs text-stone-400 font-mono">
                   {destinationPoi.code}
                 </span>
               </div>
               <h3 className="text-base font-bold text-amber-100 mt-1 font-serif-sacred">
-                Hướng dẫn di chuyển chống lạc
+                {t.map.antiLostGuideTitle}
               </h3>
             </div>
 
@@ -536,7 +538,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
               <div className="px-3 py-1.5 rounded-xl bg-stone-950 border border-stone-800 text-right">
                 <span className="text-[10px] text-stone-400 block">{t.map.duration}</span>
                 <span className="text-xs sm:text-sm font-bold text-emerald-400">
-                  ~{currentRoute.estimatedMinutes} phút đi bộ
+                  ~{currentRoute.estimatedMinutes} {t.map.walkingMinutes}
                 </span>
               </div>
             </div>
@@ -557,9 +559,9 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
                     {step.instruction}
                   </p>
                   <div className="flex items-center gap-3 mt-1.5 text-[11px] text-stone-400">
-                    <span>Khoảng cách: {step.distanceMeters}m</span>
+                    <span>{t.map.distanceLabel} {step.distanceMeters}m</span>
                     <span>•</span>
-                    <span>Thời gian: ~{step.estimatedMinutes} phút</span>
+                    <span>{t.map.timeLabel}{step.estimatedMinutes} {currentLang === 'vi' ? 'phút' : currentLang === 'zh' ? '分钟' : currentLang === 'ko' ? '분' : currentLang === 'ja' ? '分' : currentLang === 'fr' ? 'min' : 'mins'}</span>
                   </div>
                 </div>
               </div>
@@ -579,7 +581,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs shadow-md transition-all"
             >
               <Volume2 className="w-4 h-4" />
-              <span>Nghe thuyết minh điểm đến này</span>
+              <span>{t.map.listenDestinationBtn}</span>
             </button>
           </div>
         </div>

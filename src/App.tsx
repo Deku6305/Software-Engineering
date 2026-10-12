@@ -45,6 +45,7 @@ export default function App() {
   // Web Speech Audio Engine with narration language
   const {
     currentPoi: playingPoi,
+    setCurrentPoi: setPlayingPoi,
     isPlaying: isPlayingAudio,
     playbackSpeed,
     progress: audioProgress,
@@ -82,6 +83,10 @@ export default function App() {
         const updatedTarget = data.find((p) => p.id === targetNavigationPoi.id);
         if (updatedTarget) setTargetNavigationPoi(updatedTarget);
       }
+      if (playingPoi) {
+        const updatedPlaying = data.find((p) => p.id === playingPoi.id);
+        if (updatedPlaying) setPlayingPoi(updatedPlaying);
+      }
     });
   }, [currentLang]);
 
@@ -93,7 +98,11 @@ export default function App() {
       apiClient.getPois(lang).then((data) => {
         const matching = data.find((p) => p.id === playingPoi.id);
         if (matching) {
-          playPoiAudio(matching, undefined, lang);
+          if (isPlayingAudio) {
+            playPoiAudio(matching, undefined, lang);
+          } else {
+            setPlayingPoi(matching);
+          }
         }
       });
     }
@@ -207,8 +216,8 @@ export default function App() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-semibold transition-all ${isActive
-                    ? 'bg-amber-500 text-stone-950 shadow-md font-bold shadow-amber-500/20'
-                    : 'text-stone-400 hover:text-stone-200 hover:bg-stone-850'
+                  ? 'bg-amber-500 text-stone-950 shadow-md font-bold shadow-amber-500/20'
+                  : 'text-stone-400 hover:text-stone-200 hover:bg-stone-850'
                   }`}
               >
                 <Icon className="w-3.5 h-3.5" />

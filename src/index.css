@@ -16,7 +16,10 @@
     overflow-x: hidden;
   }
 
-  h1, h2, h3, .font-serif-sacred {
+  h1,
+  h2,
+  h3,
+  .font-serif-sacred {
     font-family: 'Playfair Display', Georgia, serif;
   }
 }
@@ -26,13 +29,16 @@
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: #1c1917;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #44403c;
   border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #d97706;
 }
@@ -42,10 +48,12 @@
     transform: scale(0.85);
     opacity: 0.8;
   }
+
   50% {
     transform: scale(1.35);
     opacity: 0.3;
   }
+
   100% {
     transform: scale(1.8);
     opacity: 0;
@@ -57,9 +65,12 @@
 }
 
 @keyframes float-gentle {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-6px);
   }

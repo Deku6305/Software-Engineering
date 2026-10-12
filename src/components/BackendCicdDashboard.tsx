@@ -169,11 +169,10 @@ export const BackendCicdDashboard: React.FC<BackendCicdDashboardProps> = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
-                isActive
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${isActive
                   ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-md'
                   : 'text-stone-400 hover:text-stone-200 hover:bg-stone-900'
-              }`}
+                }`}
             >
               <Icon className="w-3.5 h-3.5" />
               <span>{tab.label}</span>
@@ -326,13 +325,12 @@ export const BackendCicdDashboard: React.FC<BackendCicdDashboardProps> = () => {
                           {stage.name}
                         </span>
                         <span
-                          className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-                            stage.status === 'success'
+                          className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${stage.status === 'success'
                               ? 'bg-emerald-500/20 text-emerald-400'
                               : stage.status === 'running'
-                              ? 'bg-cyan-500/20 text-cyan-300 animate-pulse'
-                              : 'bg-stone-800 text-stone-500'
-                          }`}
+                                ? 'bg-cyan-500/20 text-cyan-300 animate-pulse'
+                                : 'bg-stone-800 text-stone-500'
+                            }`}
                         >
                           {stage.status.toUpperCase()}
                         </span>
@@ -367,7 +365,7 @@ export const BackendCicdDashboard: React.FC<BackendCicdDashboardProps> = () => {
               Dockerfile (Multi-Stage Production Container)
             </h4>
             <pre className="p-3 rounded-xl bg-stone-900 text-stone-300 text-[11px] font-mono overflow-x-auto leading-relaxed max-h-96">
-{`# Multi-Stage Dockerfile
+              {`# Multi-Stage Dockerfile
 FROM node:22-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
@@ -394,7 +392,7 @@ CMD ["npm", "start"]`}
               k8s/deployment.yaml (Canary Rolling Update Spec)
             </h4>
             <pre className="p-3 rounded-xl bg-stone-900 text-stone-300 text-[11px] font-mono overflow-x-auto leading-relaxed max-h-96">
-{`apiVersion: apps/v1
+              {`apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: linh-ung-app-deployment

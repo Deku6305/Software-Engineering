@@ -102,7 +102,14 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
               </h4>
             </div>
             <p className="text-[11px] text-stone-400 truncate">
-              {formatTime(currentTimeSec)} / {formatTime(durationSec)} • {currentLang === 'vi' ? 'Giọng đọc' : 'Voice'}: {currentLangObj.flag} {currentLangObj.label}
+              {formatTime(currentTimeSec)} / {formatTime(durationSec)} • {
+                currentLang === 'vi' ? 'Giọng đọc' :
+                  currentLang === 'zh' ? '语音' :
+                    currentLang === 'ko' ? '음성' :
+                      currentLang === 'ja' ? '音声' :
+                        currentLang === 'fr' ? 'Voix' :
+                          'Voice'
+              }: {currentLangObj.flag} {currentLangObj.label}
             </p>
           </div>
         </div>
