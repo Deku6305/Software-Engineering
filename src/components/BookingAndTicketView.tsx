@@ -67,7 +67,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
   const handleStartBooking = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedPkg || !customerName.trim() || !customerPhone.trim()) {
-      alert('Vui lòng điền họ tên và số điện thoại liên hệ');
+      alert(t.booking.fillInfoAlert);
       return;
     }
 
@@ -81,6 +81,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
         ticketId: selectedPkg.id,
         quantity,
         visitDate,
+        lang: currentLang,
       });
 
       setActiveBooking(order);
@@ -95,7 +96,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
       setPaymentTransaction(txn);
       setShowPaymentModal(true);
     } catch (err: any) {
-      alert('Lỗi tạo đơn đặt vé: ' + err.message);
+      alert(err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -126,7 +127,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
       setShowPaymentModal(false);
       setShowSuccessPassModal(true);
     } catch (err: any) {
-      alert('Lỗi xác nhận thanh toán: ' + err.message);
+      alert(err.message);
     } finally {
       setIsConfirmingPayment(false);
     }
@@ -139,7 +140,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
   };
 
   const formatVnd = (amount: number) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    return new Intl.NumberFormat(currentLang === 'vi' ? 'vi-VN' : 'en-US', { style: 'currency', currency: 'VND' }).format(amount);
   };
 
   return (
@@ -149,7 +150,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400">
             <Ticket className="w-4 h-4 text-amber-400" />
-            <span>Dịch Vụ & Tiện Ích Trực Tuyến</span>
+            <span>{t.tabs.tickets}</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-amber-100 font-serif-sacred">
             {t.booking.title}
@@ -161,7 +162,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
 
         <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold shrink-0">
           <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span>Thanh toán VietQR & MoMo bảo mật 100%</span>
+          <span>{t.booking.secureGuarantee}</span>
         </div>
       </div>
 
@@ -171,7 +172,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
         <div className="lg:col-span-2 space-y-4">
           <h3 className="text-sm font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5 font-serif-sacred">
             <Sparkles className="w-4 h-4 text-amber-400" />
-            <span>Chọn Gói Tiện Ích & Dịch Vụ</span>
+            <span>{t.booking.selectPackageTitle}</span>
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -181,11 +182,10 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                 <div
                   key={pkg.id}
                   onClick={() => setSelectedPkg(pkg)}
-                  className={`rounded-2xl p-4 border transition-all cursor-pointer flex flex-col justify-between ${
-                    isSelected
+                  className={`rounded-2xl p-4 border transition-all cursor-pointer flex flex-col justify-between ${isSelected
                       ? 'bg-amber-500/15 border-amber-500 ring-2 ring-amber-500/40 shadow-xl'
                       : 'bg-stone-900/90 border-stone-800 hover:border-amber-500/40 hover:bg-stone-850'
-                  }`}
+                    }`}
                 >
                   <div className="space-y-2.5">
                     {/* Header badge & image */}
@@ -237,11 +237,10 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                     </div>
 
                     <div
-                      className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                        isSelected
+                      className={`w-5 h-5 rounded-full border flex items-center justify-center ${isSelected
                           ? 'border-amber-400 bg-amber-500 text-stone-950'
                           : 'border-stone-600'
-                      }`}
+                        }`}
                     >
                       {isSelected && <span className="text-xs font-bold">✓</span>}
                     </div>
@@ -256,10 +255,10 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
         <div className="p-5 rounded-2xl bg-stone-900 border border-amber-900/50 space-y-4 shadow-xl h-fit">
           <div className="border-b border-stone-800 pb-3">
             <h3 className="text-sm font-bold text-amber-200 font-serif-sacred">
-              Thông Tin Đặt Vé & Thanh Toán
+              {t.booking.bookingInfoTitle}
             </h3>
             <p className="text-xs text-stone-400 mt-0.5">
-              Xác nhận tức thì qua tin nhắn & vé điện tử
+              {t.booking.instantConfirmText}
             </p>
           </div>
 
@@ -268,13 +267,13 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
             {selectedPkg && (
               <div className="p-3 rounded-xl bg-stone-950/80 border border-stone-800 space-y-1">
                 <span className="text-[10px] text-amber-400 font-bold uppercase">
-                  Gói dịch vụ đã chọn:
+                  {t.booking.selectedPackageLabel}
                 </span>
                 <p className="text-xs font-semibold text-stone-100">
                   {selectedPkg.name}
                 </p>
                 <p className="text-xs text-amber-300 font-bold">
-                  {formatVnd(selectedPkg.priceVnd)} / lượt
+                  {formatVnd(selectedPkg.priceVnd)} {t.booking.perTrip}
                 </p>
               </div>
             )}
@@ -330,7 +329,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
               <input
                 type="text"
                 required
-                placeholder="Nguyễn Văn A"
+                placeholder={currentLang === 'vi' ? 'Nguyễn Văn A' : 'John Doe'}
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 className="w-full px-3 py-2 rounded-xl bg-stone-950 border border-stone-800 text-stone-200 focus:outline-none focus:border-amber-500/50 text-xs"
@@ -357,7 +356,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
             <div>
               <label className="block text-stone-300 mb-1 font-medium flex items-center gap-1.5">
                 <Mail className="w-3.5 h-3.5 text-amber-400" />
-                Email nhận vé (không bắt buộc)
+                {t.booking.emailLabel}
               </label>
               <input
                 type="email"
@@ -370,9 +369,9 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
 
             {/* Total calculation */}
             <div className="pt-2 border-t border-stone-800 flex items-center justify-between">
-              <span className="text-stone-300 font-medium">Tổng tiền:</span>
+              <span className="text-stone-300 font-medium">{t.booking.total}:</span>
               <span className="text-base sm:text-lg font-extrabold text-amber-400">
-                {selectedPkg ? formatVnd(selectedPkg.priceVnd * quantity) : '0 đ'}
+                {selectedPkg ? formatVnd(selectedPkg.priceVnd * quantity) : formatVnd(0)}
               </span>
             </div>
 
@@ -383,11 +382,11 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
               className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-bold text-xs shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
-                <span>Đang xử lý đặt vé...</span>
+                <span>{t.booking.processingBooking}</span>
               ) : (
                 <>
                   <Lock className="w-3.5 h-3.5" />
-                  <span>Tiến Hành Thanh Toán Bảo Mật</span>
+                  <span>{t.booking.proceedSecurePay}</span>
                 </>
               )}
             </button>
@@ -407,10 +406,10 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                 </div>
                 <div>
                   <h3 className="text-sm sm:text-base font-bold text-amber-100 font-serif-sacred">
-                    Cổng Thanh Toán Trực Tuyến
+                    {t.booking.onlineGatewayTitle}
                   </h3>
                   <p className="text-[11px] text-stone-400">
-                    Mã đơn: <span className="font-mono text-amber-300">{activeBooking.bookingId}</span>
+                    {t.booking.orderCodeLabel} <span className="font-mono text-amber-300">{activeBooking.bookingId}</span>
                   </p>
                 </div>
               </div>
@@ -429,16 +428,15 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                 { id: 'VIETQR', label: 'VietQR', icon: '🏦' },
                 { id: 'MOMO', label: 'MoMo', icon: '👛' },
                 { id: 'VNPAY', label: 'VNPay', icon: '💳' },
-                { id: 'CREDIT_CARD', label: 'Thẻ Quốc Tế', icon: '🌐' },
+                { id: 'CREDIT_CARD', label: t.booking.internationalCard, icon: '🌐' },
               ].map((channel) => (
                 <button
                   key={channel.id}
                   onClick={() => handleChannelSwitch(channel.id)}
-                  className={`p-2 rounded-xl text-center border transition-all text-xs font-medium ${
-                    selectedPaymentChannel === channel.id
+                  className={`p-2 rounded-xl text-center border transition-all text-xs font-medium ${selectedPaymentChannel === channel.id
                       ? 'bg-amber-500/20 border-amber-500 text-amber-300 font-bold'
                       : 'bg-stone-950 border-stone-800 text-stone-400 hover:text-stone-200'
-                  }`}
+                    }`}
                 >
                   <div className="text-base">{channel.icon}</div>
                   <span className="text-[10px] block mt-0.5">{channel.label}</span>
@@ -448,7 +446,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
 
             {/* Total Amount Callout */}
             <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
-              <span className="text-xs text-stone-300">Số tiền cần thanh toán:</span>
+              <span className="text-xs text-stone-300">{t.booking.amountToPay}</span>
               <span className="text-lg font-extrabold text-amber-400">
                 {formatVnd(paymentTransaction.amountVnd)}
               </span>
@@ -471,24 +469,24 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                 </div>
 
                 <p className="text-center text-[11px] text-stone-400">
-                  Mở ứng dụng ngân hàng bất kỳ (VCB, MB, Techcombank, BIDV...) quét mã QR
+                  {t.booking.bankAppScanHint}
                 </p>
 
                 {/* Account Details Box */}
                 <div className="p-3.5 rounded-xl bg-stone-950/80 border border-stone-800 text-xs space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-stone-400">Ngân hàng:</span>
+                    <span className="text-stone-400">{t.booking.bankNameLabel}</span>
                     <span className="text-stone-200 font-semibold">{paymentTransaction.bankAccountInfo.bankName}</span>
                   </div>
 
                   <div className="flex justify-between items-center">
-                    <span className="text-stone-400">Số tài khoản:</span>
+                    <span className="text-stone-400">{t.booking.accountNumberLabel}</span>
                     <div className="flex items-center gap-1.5">
                       <span className="font-mono text-amber-300 font-bold">{paymentTransaction.bankAccountInfo.accountNumber}</span>
                       <button
                         onClick={() => handleCopy(paymentTransaction.bankAccountInfo!.accountNumber, 'acc')}
                         className="text-stone-400 hover:text-amber-400 p-0.5"
-                        title="Sao chép"
+                        title={currentLang === 'vi' ? 'Sao chép' : 'Copy'}
                       >
                         <Copy className="w-3.5 h-3.5" />
                       </button>
@@ -496,18 +494,18 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                   </div>
 
                   <div className="flex justify-between items-center">
-                    <span className="text-stone-400">Chủ tài khoản:</span>
+                    <span className="text-stone-400">{t.booking.accountNameLabel}</span>
                     <span className="text-stone-200 font-semibold">{paymentTransaction.bankAccountInfo.accountName}</span>
                   </div>
 
                   <div className="flex justify-between items-center">
-                    <span className="text-stone-400">Nội dung chuyển khoản:</span>
+                    <span className="text-stone-400">{t.booking.transferDescLabel}</span>
                     <div className="flex items-center gap-1.5">
                       <span className="font-mono text-emerald-400 font-bold">{paymentTransaction.bankAccountInfo.transferDescription}</span>
                       <button
                         onClick={() => handleCopy(paymentTransaction.bankAccountInfo!.transferDescription, 'desc')}
                         className="text-stone-400 hover:text-emerald-400 p-0.5"
-                        title="Sao chép"
+                        title={currentLang === 'vi' ? 'Sao chép' : 'Copy'}
                       >
                         <Copy className="w-3.5 h-3.5" />
                       </button>
@@ -516,7 +514,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
 
                   {copiedField && (
                     <div className="text-[10px] text-center text-emerald-400 font-semibold pt-1">
-                      ✓ Đã sao chép vào bộ nhớ tạm!
+                      {t.booking.copiedSuccess}
                     </div>
                   )}
                 </div>
@@ -527,7 +525,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
             {selectedPaymentChannel === 'CREDIT_CARD' && (
               <div className="space-y-2.5 text-xs p-3 rounded-xl bg-stone-950 border border-stone-800">
                 <div>
-                  <label className="text-stone-400 block mb-1">Số thẻ tín dụng / ghi nợ</label>
+                  <label className="text-stone-400 block mb-1">{t.booking.cardNumLabel}</label>
                   <input
                     type="text"
                     defaultValue="4532 •••• •••• 8892"
@@ -536,7 +534,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-stone-400 block mb-1">Hạn thẻ (MM/YY)</label>
+                    <label className="text-stone-400 block mb-1">{t.booking.cardExpLabel}</label>
                     <input
                       type="text"
                       defaultValue="08/28"
@@ -544,7 +542,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="text-stone-400 block mb-1">Mã bảo mật (CVV)</label>
+                    <label className="text-stone-400 block mb-1">{t.booking.cardCvvLabel}</label>
                     <input
                       type="password"
                       defaultValue="789"
@@ -563,17 +561,17 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                 className="w-full py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold text-xs sm:text-sm shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2"
               >
                 {isConfirmingPayment ? (
-                  <span>Đang kết nối cổng ngân hàng & phát hành vé...</span>
+                  <span>{t.booking.confirmingProcessing}</span>
                 ) : (
                   <>
                     <CheckCircle2 className="w-4 h-4" />
-                    <span>Xác Nhận Đã Thanh Toán & Nhận Vé Ngay</span>
+                    <span>{t.booking.confirmPaidBtn}</span>
                   </>
                 )}
               </button>
 
               <p className="text-[10px] text-center text-stone-500">
-                Hệ thống xác thực giao dịch tự động qua EventBus microservice trong 1-3 giây.
+                {t.booking.eventBusNotice}
               </p>
             </div>
           </div>
@@ -591,10 +589,10 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
 
             <div className="space-y-1">
               <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                ĐÃ THANH TOÁN THÀNH CÔNG
+                {t.booking.paymentSuccessBadge}
               </span>
               <h3 className="text-xl font-bold text-amber-100 font-serif-sacred mt-2">
-                Vé Điện Tử Chùa Linh Ứng
+                {t.booking.eTicketTitle}
               </h3>
               <p className="text-xs text-stone-400">
                 {t.booking.eTicketSuccess}
@@ -610,27 +608,27 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
 
               <div className="flex items-center justify-between border-b border-stone-800 pb-2">
                 <div>
-                  <span className="text-[10px] text-stone-400">Mã vé (Check-in Code):</span>
+                  <span className="text-[10px] text-stone-400">{t.booking.checkInCodeLabel}</span>
                   <p className="text-xs font-mono font-bold text-amber-300">{activeBooking.bookingId}</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] text-stone-400">Ngày tham quan:</span>
+                  <span className="text-[10px] text-stone-400">{t.booking.visitDate}:</span>
                   <p className="text-xs font-semibold text-stone-200">{activeBooking.visitDate}</p>
                 </div>
               </div>
 
               <div className="space-y-1 text-xs">
                 <p className="text-stone-300">
-                  <strong>Khách hàng:</strong> {activeBooking.customerName}
+                  <strong>{t.booking.customerLabel}</strong> {activeBooking.customerName}
                 </p>
                 <p className="text-stone-300">
-                  <strong>Dịch vụ:</strong> {activeBooking.ticketName}
+                  <strong>{t.booking.serviceLabel}</strong> {activeBooking.ticketName}
                 </p>
                 <p className="text-stone-300">
-                  <strong>Số lượng:</strong> {activeBooking.quantity} khách
+                  <strong>{t.booking.quantity}:</strong> {activeBooking.quantity} {t.booking.quantityGuests}
                 </p>
                 <p className="text-amber-300 font-bold">
-                  <strong>Tổng thanh toán:</strong> {formatVnd(activeBooking.totalAmountVnd)}
+                  <strong>{t.booking.totalPaidLabel}</strong> {formatVnd(activeBooking.totalAmountVnd)}
                 </p>
               </div>
 
@@ -640,7 +638,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                   <QrCode className="w-14 h-14 text-stone-950" />
                 </div>
                 <div className="text-[11px] text-stone-400">
-                  Xuất trình mã QR này tại trạm xe điện buggy hoặc cổng Tháp Xá Lợi để check-in.
+                  {t.booking.checkInQrInstruction}
                 </div>
               </div>
             </div>
@@ -649,7 +647,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
             <div className="space-y-2 pt-2">
               <button
                 onClick={() => {
-                  alert('Vé điện tử đã được lưu vào bộ nhớ thiết bị của bạn!');
+                  alert(t.booking.passSavedAlert);
                   setShowSuccessPassModal(false);
                 }}
                 className="w-full py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2"
@@ -662,7 +660,7 @@ export const BookingAndTicketView: React.FC<BookingAndTicketViewProps> = ({
                 onClick={() => setShowSuccessPassModal(false)}
                 className="text-xs text-stone-400 hover:text-stone-200"
               >
-                Đóng thông báo
+                {t.booking.closeNotice}
               </button>
             </div>
           </div>

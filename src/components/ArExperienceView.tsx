@@ -108,7 +108,7 @@ export const ArExperienceView: React.FC<ArExperienceViewProps> = ({
           <span>{t.ar.title}</span>
         </div>
         <h2 className="text-2xl font-bold text-amber-100 font-serif-sacred">
-          Không Gian Linh Thiêng Tăng Cường (AR)
+          {t.ar.arTitleFull}
         </h2>
         <p className="text-xs sm:text-sm text-stone-300">
           {t.ar.subtitle}
@@ -176,7 +176,7 @@ export const ArExperienceView: React.FC<ArExperienceViewProps> = ({
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-stone-950/85 backdrop-blur-md border border-amber-500/40 text-xs font-mono text-amber-300">
               <Compass className="w-4 h-4 text-amber-400" />
               <span>
-                {bearingHeading}° {bearingHeading >= 45 && bearingHeading <= 135 ? 'ĐÔNG (East Sea)' : 'BẮC (Sơn Trà)'}
+                {bearingHeading}° {bearingHeading >= 45 && bearingHeading <= 135 ? t.ar.arHeadingEast : t.ar.arHeadingNorth}
               </span>
             </div>
 
@@ -185,7 +185,7 @@ export const ArExperienceView: React.FC<ArExperienceViewProps> = ({
                 onClick={() => setCameraEnabled(!cameraEnabled)}
                 className="px-3 py-1.5 rounded-xl bg-stone-950/85 backdrop-blur-md border border-stone-800 hover:border-amber-500/50 text-xs text-stone-200 font-medium transition-colors"
               >
-                {cameraEnabled ? 'Tắt Camera' : 'Bật Camera Thật'}
+                {cameraEnabled ? t.ar.turnCameraOff : t.ar.turnCameraOn}
               </button>
             </div>
           </div>
@@ -201,7 +201,7 @@ export const ArExperienceView: React.FC<ArExperienceViewProps> = ({
                 {ladyBuddhaPoi.name}
               </h4>
               <p className="text-[11px] text-stone-300">
-                {t.ar.distanceAway}: <strong className="text-amber-400">45 mét</strong> (Độ dốc +15m)
+                {t.ar.distanceAway}: <strong className="text-amber-400">45 {t.ar.elevationText}</strong>
               </p>
 
               <button
@@ -209,7 +209,7 @@ export const ArExperienceView: React.FC<ArExperienceViewProps> = ({
                 className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs shadow-md transition-all mt-1"
               >
                 <Volume2 className="w-3.5 h-3.5" />
-                <span>Nghe Thuyết Minh AR</span>
+                <span>{t.ar.listenArBtn}</span>
               </button>
             </div>
           </div>
@@ -220,7 +220,7 @@ export const ArExperienceView: React.FC<ArExperienceViewProps> = ({
               <button
                 onClick={() => setBearingHeading((prev) => (prev - 15 + 360) % 360)}
                 className="p-1.5 rounded-lg hover:bg-stone-800 text-stone-300 hover:text-amber-300 transition-colors"
-                title="Xoay trái 15°"
+                title={t.ar.rotateLeftTitle}
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -230,7 +230,7 @@ export const ArExperienceView: React.FC<ArExperienceViewProps> = ({
               <button
                 onClick={() => setBearingHeading((prev) => (prev + 15) % 360)}
                 className="p-1.5 rounded-lg hover:bg-stone-800 text-stone-300 hover:text-amber-300 transition-colors"
-                title="Xoay phải 15°"
+                title={t.ar.rotateRightTitle}
               >
                 <RotateCw className="w-4 h-4" />
               </button>
@@ -239,24 +239,22 @@ export const ArExperienceView: React.FC<ArExperienceViewProps> = ({
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowLotusHalo(!showLotusHalo)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
-                  showLotusHalo
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${showLotusHalo
                     ? 'bg-amber-500/20 text-amber-300 border-amber-500/50'
                     : 'bg-stone-900 text-stone-400 border-stone-800'
-                }`}
+                  }`}
               >
-                Hào Quang Sen
+                {t.ar.haloBtn}
               </button>
 
               <button
                 onClick={() => setShowBlessingParticles(!showBlessingParticles)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
-                  showBlessingParticles
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${showBlessingParticles
                     ? 'bg-purple-500/20 text-purple-300 border-purple-500/50'
                     : 'bg-stone-900 text-stone-400 border-stone-800'
-                }`}
+                  }`}
               >
-                Mưa Hoa Sen
+                {t.ar.particlesBtn}
               </button>
             </div>
           </div>
@@ -269,11 +267,11 @@ export const ArExperienceView: React.FC<ArExperienceViewProps> = ({
           <div className="flex items-center gap-2">
             <Layers className="w-4 h-4 text-amber-400" />
             <h3 className="text-sm font-bold text-amber-200 font-serif-sacred">
-              {t.ar.historicalSlider} (Tái Hiện Không Gian Lịch Sử)
+              {t.ar.historicalSlider} {t.ar.timelineReconstruction}
             </h3>
           </div>
           <span className="text-xs font-bold text-amber-400 font-mono px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/30">
-            Năm {timeTravelYear}
+            {t.ar.yearLabel} {timeTravelYear}
           </span>
         </div>
 
@@ -288,25 +286,17 @@ export const ArExperienceView: React.FC<ArExperienceViewProps> = ({
         />
 
         <div className="flex items-center justify-between text-[11px] text-stone-400">
-          <span>2004: Khởi công đặt đá</span>
-          <span>2010: Khánh thành tượng 67m</span>
-          <span>Hiện tại: Quần thể hoàn mỹ</span>
+          <span>{t.ar.milestone2004}</span>
+          <span>{t.ar.milestone2010}</span>
+          <span>{t.ar.milestonePresent}</span>
         </div>
 
         <p className="text-xs text-stone-300 bg-stone-950/60 p-3 rounded-xl border border-stone-800/80 leading-relaxed">
-          {timeTravelYear < 2008 ? (
-            <span>
-              <strong>Giai đoạn 2004:</strong> Vùng đồi núi hoang sơ Bãi Bụt bắt đầu khởi công. Hàng vạn khối đá cẩm thạch trắng được vận chuyển từ làng Non Nước về dưới sự chỉ đạo của Cố Thượng tọa Thích Thiện Nguyện.
-            </span>
-          ) : timeTravelYear <= 2012 ? (
-            <span>
-              <strong>Giai đoạn 2010:</strong> Đại lễ khánh thành tôn tượng Phật Bà Quan Thế Âm 67m và Chánh Điện. Hàng vạn tăng ni Phật tử và khách quốc tế chiêm bái hào quang trên biển.
-            </span>
-          ) : (
-            <span>
-              <strong>Hiện tại ({timeTravelYear}):</strong> Biểu tượng tâm linh hàng đầu miền Trung, che chở sóng gió cho ngư dân Đà Nẵng và đón hàng triệu du khách chiêm bái.
-            </span>
-          )}
+          {timeTravelYear < 2008
+            ? t.ar.period2004Text
+            : timeTravelYear <= 2012
+              ? t.ar.period2010Text
+              : t.ar.periodPresentText}
         </p>
       </div>
     </div>

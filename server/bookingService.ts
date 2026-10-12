@@ -199,6 +199,84 @@ class BookingService {
       latencyMs: 8
     });
 
+    const durationMap: Record<string, Record<string, string>> = {
+      ticket_buggy_shuttle: {
+        vi: 'Sử dụng trong ngày (Khứ hồi)',
+        en: 'Valid all day (Roundtrip)',
+        zh: '当日有效（往返）',
+        ko: '당일 유효 (왕복)',
+        ja: '当日有効（往復）',
+        fr: 'Valable toute la journée (Aller-retour)'
+      },
+      ticket_xaloi_exhibition: {
+        vi: '45 phút tham quan',
+        en: '45 mins visit',
+        zh: '45分钟参访',
+        ko: '45분 관람',
+        ja: '45分拝観',
+        fr: '45 min de visite'
+      },
+      ticket_hoanghon_cau_an: {
+        vi: '75 phút trải nghiệm (17:00 - 18:15)',
+        en: '75 mins experience (17:00 - 18:15)',
+        zh: '75分钟体验 (17:00 - 18:15)',
+        ko: '75분 체험 (17:00 - 18:15)',
+        ja: '75分体験 (17:00 - 18:15)',
+        fr: '75 min d\'expérience (17:00 - 18:15)'
+      },
+      ticket_headset_smart: {
+        vi: 'Toàn bộ thời gian tham quan',
+        en: 'Full visit duration',
+        zh: '参拜游览全程有效',
+        ko: '사찰 관람 전 시간 이용',
+        ja: '拝観時間中ずっと利用可能',
+        fr: 'Toute la durée de la visite'
+      },
+      ticket_com_chay_tinh_tam: {
+        vi: 'Phục vụ từ 11:00 - 13:30',
+        en: 'Served 11:00 - 13:30',
+        zh: '供应时间 11:00 - 13:30',
+        ko: '제공 시간 11:00 - 13:30',
+        ja: '提供時間 11:00 - 13:30',
+        fr: 'Service de 11:00 à 13:30'
+      }
+    };
+
+    const badgeMap: Record<string, Record<string, string>> = {
+      ticket_buggy_shuttle: {
+        vi: 'Bán chạy',
+        en: 'Best Seller',
+        zh: '热销推荐',
+        ko: '인기 상품',
+        ja: '人気No.1',
+        fr: 'Plus populaire'
+      },
+      ticket_xaloi_exhibition: {
+        vi: 'Linh thiêng',
+        en: 'Sacred Relic',
+        zh: '传世圣物',
+        ko: '성스러운 유물',
+        ja: '神聖仏宝',
+        fr: 'Relique sacrée'
+      },
+      ticket_hoanghon_cau_an: {
+        vi: 'Đặc sắc nhất',
+        en: 'Featured',
+        zh: '特色推荐',
+        ko: '추천 체험',
+        ja: '一番人気',
+        fr: 'Coup de cœur'
+      },
+      ticket_com_chay_tinh_tam: {
+        vi: 'Thực dưỡng',
+        en: 'Temple Vegan',
+        zh: '禅风素斋',
+        ko: '사찰식 채식',
+        ja: '精進料理',
+        fr: 'Repas Zen'
+      }
+    };
+
     return this.ticketPackages.map(pkg => ({
       id: pkg.id,
       name: pkg.name[l] || pkg.name.vi,
@@ -206,8 +284,8 @@ class BookingService {
       originalPriceVnd: pkg.originalPriceVnd,
       category: pkg.category,
       includes: pkg.includes[l] || pkg.includes.vi,
-      durationText: pkg.durationText,
-      badge: pkg.badge,
+      durationText: durationMap[pkg.id]?.[l] || pkg.durationText,
+      badge: badgeMap[pkg.id]?.[l] || pkg.badge,
       image: pkg.image
     }));
   }
@@ -219,7 +297,9 @@ class BookingService {
     ticketId: string;
     quantity: number;
     visitDate: string;
+    lang?: string;
   }): BookingOrder {
+    const l = (['vi', 'en', 'zh', 'ko', 'ja', 'fr'].includes(data.lang || 'vi') ? data.lang : 'vi') as 'vi' | 'en' | 'zh' | 'ko' | 'ja' | 'fr';
     const pkg = this.ticketPackages.find(p => p.id === data.ticketId);
     if (!pkg) {
       throw new Error(`Ticket package not found: ${data.ticketId}`);
@@ -236,7 +316,7 @@ class BookingService {
       customerEmail: data.customerEmail || 'khach.thamquan@chualinhung.vn',
       visitDate: data.visitDate,
       ticketId: pkg.id,
-      ticketName: pkg.name.vi,
+      ticketName: pkg.name[l] || pkg.name.vi,
       quantity: data.quantity,
       totalAmountVnd: totalAmount,
       status: 'PENDING_PAYMENT',

@@ -24,9 +24,10 @@ Nhiệm vụ của bạn:
 5. Trả lời súc tích, định dạng gạch đầu dòng rõ ràng, dễ đọc trên màn hình điện thoại di động.
 `;
 
-  constructor() {
+  private getAiClient(): GoogleGenAI | null {
     const apiKey = process.env.GEMINI_API_KEY;
-    if (apiKey) {
+    if (!apiKey) return null;
+    if (!this.ai) {
       this.ai = new GoogleGenAI({
         apiKey,
         httpOptions: {
@@ -36,19 +37,21 @@ Nhiệm vụ của bạn:
         },
       });
     }
+    return this.ai;
   }
 
   public async answerUserQuestion(question: string, history: ChatMessage[] = [], lang: string = 'vi'): Promise<{
     reply: string;
-    source: 'gemini-3.8-flash' | 'domain-knowledge-base';
+    source: 'gemini-2.5-flash' | 'domain-knowledge-base';
   }> {
     const startTime = Date.now();
 
     // Try Gemini API if key is set
-    if (this.ai && process.env.GEMINI_API_KEY) {
+    const aiClient = this.getAiClient();
+    if (aiClient) {
       try {
-        const response = await this.ai.models.generateContent({
-          model: 'gemini-3.8-flash',
+        const response = await aiClient.models.generateContent({
+          model: 'gemini-2.5-flash',
           contents: [
             ...history.map(m => ({
               role: m.role === 'assistant' ? 'model' : 'user',
@@ -72,7 +75,7 @@ Nhiệm vụ của bạn:
         eventBus.publish('ChatAiService', 'AI_QUERY_COMPLETED', {
           questionPreview: question.substring(0, 40),
           latencyMs: latency,
-          model: 'gemini-3.8-flash'
+          model: 'gemini-2.5-flash'
         }, {
           targetService: 'ClientApp',
           latencyMs: latency
@@ -80,7 +83,7 @@ Nhiệm vụ của bạn:
 
         return {
           reply,
-          source: 'gemini-3.8-flash'
+          source: 'gemini-2.5-flash'
         };
       } catch (err) {
         console.error('Gemini API call failed, falling back to built-in knowledge base:', err);

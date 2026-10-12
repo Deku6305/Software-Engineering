@@ -34,7 +34,6 @@ type TabKey =
 export default function App() {
   const [currentLang, setCurrentLang] = useState<SupportedLanguage>('vi');
   const [activeTab, setActiveTab] = useState<TabKey>('monuments');
-  const [isMobileFrame, setIsMobileFrame] = useState(false);
   const [pois, setPois] = useState<MonumentPoiData[]>([]);
   const [isLoadingPois, setIsLoadingPois] = useState(true);
 
@@ -74,6 +73,14 @@ export default function App() {
       if (selectedPoiForModal) {
         const updated = data.find((p) => p.id === selectedPoiForModal.id);
         if (updated) setSelectedPoiForModal(updated);
+      }
+      if (activeScannedPoi) {
+        const updatedScanned = data.find((p) => p.id === activeScannedPoi.id);
+        if (updatedScanned) setActiveScannedPoi(updatedScanned);
+      }
+      if (targetNavigationPoi) {
+        const updatedTarget = data.find((p) => p.id === targetNavigationPoi.id);
+        if (updatedTarget) setTargetNavigationPoi(updatedTarget);
       }
     });
   }, [currentLang]);
@@ -139,7 +146,18 @@ export default function App() {
       setActiveScannedPoi(matched);
       playPoiAudio(matched, undefined, narrationLang || currentLang);
     } else {
-      alert(`Không tìm thấy dữ liệu cho mã QR: ${code}`);
+      const notFoundPrefix = currentLang === 'vi'
+        ? 'Không tìm thấy dữ liệu cho mã QR'
+        : currentLang === 'zh'
+          ? '未找到该二维码对应数据'
+          : currentLang === 'ko'
+            ? 'QR 코드에 해당하는 데이터를 찾을 수 없습니다'
+            : currentLang === 'ja'
+              ? 'QRコードのデータが見つかりませんでした'
+              : currentLang === 'fr'
+                ? 'Aucune donnée trouvée pour le code QR'
+                : 'No data found for QR code';
+      alert(`${notFoundPrefix}: ${code}`);
     }
   };
 
@@ -166,31 +184,12 @@ export default function App() {
   ];
 
   return (
-    <div className={`min-h-screen bg-stone-950 text-stone-100 flex flex-col font-sans ${isMobileFrame ? 'p-0 sm:py-8 bg-neutral-900' : ''}`}>
-      {/* Mobile Device Frame Mockup Container when enabled */}
-      <div
-        className={`w-full mx-auto flex-1 flex flex-col transition-all duration-300 ${
-          isMobileFrame
-            ? 'max-w-md sm:h-[880px] sm:rounded-[40px] sm:border-[8px] sm:border-stone-800 shadow-[0_0_60px_rgba(0,0,0,0.8)] overflow-hidden bg-stone-950 relative sm:ring-1 sm:ring-stone-700'
-            : 'max-w-7xl'
-        }`}
-      >
-        {/* Dynamic Island / Speaker notch when on Mobile Frame */}
-        {isMobileFrame && (
-          <div className="hidden sm:flex justify-center pt-2 pb-1 bg-stone-950 z-50">
-            <div className="w-24 h-4 bg-stone-900 rounded-full flex items-center justify-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-stone-800" />
-              <span className="w-8 h-1 rounded-full bg-stone-800" />
-            </div>
-          </div>
-        )}
-
+    <div className="min-h-screen bg-stone-950 text-stone-100 flex flex-col font-sans">
+      <div className="w-full mx-auto flex-1 flex flex-col max-w-7xl">
         {/* Global Navigation Header */}
         <Header
           currentLang={currentLang}
           onLanguageChange={handleGlobalLanguageChange}
-          isMobileFrame={isMobileFrame}
-          onToggleMobileFrame={() => setIsMobileFrame(!isMobileFrame)}
           isPlayingAudio={isPlayingAudio}
           activePoiName={playingPoi?.name}
           onOpenPlayer={() => {
@@ -207,11 +206,10 @@ export default function App() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                  isActive
+                className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-semibold transition-all ${isActive
                     ? 'bg-amber-500 text-stone-950 shadow-md font-bold shadow-amber-500/20'
                     : 'text-stone-400 hover:text-stone-200 hover:bg-stone-850'
-                }`}
+                  }`}
               >
                 <Icon className="w-3.5 h-3.5" />
                 <span>{tab.label}</span>
@@ -226,7 +224,17 @@ export default function App() {
             <div className="flex flex-col items-center justify-center py-20 space-y-3">
               <span className="text-4xl animate-bounce">🪷</span>
               <p className="text-xs text-stone-400">
-                Đang khởi tạo âm thanh thuyết minh Chùa Linh Ứng...
+                {currentLang === 'vi'
+                  ? 'Đang khởi tạo âm thanh thuyết minh Chùa Linh Ứng...'
+                  : currentLang === 'zh'
+                    ? '正在初始化灵应寺智能语音讲解...'
+                    : currentLang === 'ko'
+                      ? '영응사 스마트 음성 해설을 초기화하고 있습니다...'
+                      : currentLang === 'ja'
+                        ? '霊応寺スマート音声ガイドを初期化中...'
+                        : currentLang === 'fr'
+                          ? 'Initialisation du guide audio de la pagode Linh Ung...'
+                          : 'Initializing Linh Ung Pagoda audio narration...'}
               </p>
             </div>
           ) : (
@@ -295,6 +303,7 @@ export default function App() {
         {/* Floating Bottom Audio Player Bar with Language Selector */}
         <AudioPlayerBar
           currentPoi={playingPoi}
+          currentLang={currentLang}
           isPlaying={isPlayingAudio}
           progress={audioProgress}
           currentTimeSec={currentTimeSec}
@@ -321,14 +330,12 @@ export default function App() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl transition-all ${
-                  isActive ? 'text-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'
-                }`}
+                className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl transition-all ${isActive ? 'text-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'
+                  }`}
               >
                 <div
-                  className={`p-1 rounded-lg ${
-                    isActive ? 'bg-amber-500/20 text-amber-300' : ''
-                  }`}
+                  className={`p-1 rounded-lg ${isActive ? 'bg-amber-500/20 text-amber-300' : ''
+                    }`}
                 >
                   <Icon className="w-4 h-4" />
                 </div>

@@ -126,22 +126,78 @@ class NavigationService {
   ];
 
   public getSuggestedItineraries(lang: string = 'vi'): any[] {
+    const l = (['vi', 'en', 'zh', 'ko', 'ja', 'fr'].includes(lang) ? lang : 'vi') as 'vi' | 'en' | 'zh' | 'ko' | 'ja' | 'fr';
+
     eventBus.publish('NavigationService', 'ITINERARIES_ACCESSED', { lang }, {
       targetService: 'ClientApp',
       latencyMs: 7
     });
 
+    const durationMap: Record<string, Record<string, string>> = {
+      tour_tinh_hoa_45m: {
+        vi: '45 phút',
+        en: '45 mins',
+        zh: '45分钟',
+        ko: '45분',
+        ja: '45分',
+        fr: '45 min'
+      },
+      tour_chiem_bai_toan_canh_2h: {
+        vi: '120 phút',
+        en: '120 mins',
+        zh: '120分钟',
+        ko: '120분',
+        ja: '120分',
+        fr: '120 min'
+      },
+      tour_thien_dinh_tam_linh_90m: {
+        vi: '90 phút',
+        en: '90 mins',
+        zh: '90分钟',
+        ko: '90분',
+        ja: '90分',
+        fr: '90 min'
+      }
+    };
+
+    const badgeMap: Record<string, Record<string, string>> = {
+      tour_tinh_hoa_45m: {
+        vi: 'Phổ biến nhất',
+        en: 'Most Popular',
+        zh: '最受欢迎',
+        ko: '가장 인기',
+        ja: '一番人気',
+        fr: 'Plus populaire'
+      },
+      tour_chiem_bai_toan_canh_2h: {
+        vi: 'Được yêu thích',
+        en: 'Top Pick',
+        zh: '精选全景',
+        ko: '추천 코스',
+        ja: 'おすすめ',
+        fr: 'Recommandé'
+      },
+      tour_thien_dinh_tam_linh_90m: {
+        vi: 'Tĩnh lặng & Thiên nhiên',
+        en: 'Zen & Nature',
+        zh: '禅修自然',
+        ko: '명상과 힐링',
+        ja: '瞑想と自然',
+        fr: 'Méditation & Nature'
+      }
+    };
+
     return this.itineraries.map(it => ({
       id: it.id,
-      name: it.name[lang as keyof typeof it.name] || it.name.vi,
-      durationText: it.durationText,
+      name: it.name[l] || it.name.vi,
+      durationText: durationMap[it.id]?.[l] || it.durationText,
       estimatedMinutes: it.estimatedMinutes,
       distanceMeters: it.distanceMeters,
       calorieBurn: it.calorieBurn,
       recommendedTime: it.recommendedTime,
       poiSequence: it.poiSequence,
-      description: it.description[lang as keyof typeof it.description] || it.description.vi,
-      badge: it.badge
+      description: it.description[l] || it.description.vi,
+      badge: badgeMap[it.id]?.[l] || it.badge
     }));
   }
 

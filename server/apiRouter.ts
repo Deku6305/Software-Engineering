@@ -108,7 +108,7 @@ apiRouter.get('/tickets', (req: Request, res: Response) => {
 
 apiRouter.post('/bookings', (req: Request, res: Response) => {
   try {
-    const { customerName, customerPhone, customerEmail, ticketId, quantity, visitDate } = req.body;
+    const { customerName, customerPhone, customerEmail, ticketId, quantity, visitDate, lang } = req.body;
     if (!customerName || !customerPhone || !ticketId || !quantity) {
       return res.status(400).json({ error: 'Missing required booking fields' });
     }
@@ -118,7 +118,8 @@ apiRouter.post('/bookings', (req: Request, res: Response) => {
       customerEmail,
       ticketId,
       quantity: Number(quantity),
-      visitDate: visitDate || new Date().toISOString().split('T')[0]
+      visitDate: visitDate || new Date().toISOString().split('T')[0],
+      lang: lang || (req.query.lang as string) || 'vi'
     });
     res.status(201).json({ order });
   } catch (err: any) {

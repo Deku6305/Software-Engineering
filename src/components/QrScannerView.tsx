@@ -40,7 +40,7 @@ export const QrScannerView: React.FC<QrScannerViewProps> = ({
     setCameraError(null);
     try {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('Trình duyệt không hỗ trợ truy cập máy ảnh');
+        throw new Error(t.scanner.cameraError);
       }
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
@@ -53,7 +53,7 @@ export const QrScannerView: React.FC<QrScannerViewProps> = ({
       setCameraActive(true);
     } catch (err: any) {
       console.warn('Camera access denied or error:', err);
-      setCameraError(err.message || 'Không thể mở máy ảnh. Vui lòng cấp quyền.');
+      setCameraError(err.message || t.scanner.cameraError);
       setCameraActive(false);
     }
   };
@@ -104,7 +104,7 @@ export const QrScannerView: React.FC<QrScannerViewProps> = ({
           <span>{t.scanner.title}</span>
         </div>
         <h2 className="text-2xl font-bold text-amber-100 font-serif-sacred">
-          Quét Mã QR Nhận Diện Di Tích
+          {t.scanner.scannerSubtitle}
         </h2>
         <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
           {t.scanner.instruction}
@@ -127,14 +127,14 @@ export const QrScannerView: React.FC<QrScannerViewProps> = ({
               <Camera className="w-8 h-8" />
             </div>
             <p className="text-xs text-stone-400">
-              {cameraError || 'Camera đang tắt hoặc không khả dụng'}
+              {cameraError || t.scanner.cameraOff}
             </p>
             <button
               onClick={startCamera}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs shadow-lg transition-all"
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              <span>Khởi động lại Camera</span>
+              <span>{t.scanner.restartCamera}</span>
             </button>
           </div>
         )}
@@ -152,7 +152,7 @@ export const QrScannerView: React.FC<QrScannerViewProps> = ({
             <div className="absolute left-3 right-3 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent shadow-[0_0_12px_#f59e0b] animate-bounce" />
 
             <div className="absolute bottom-3 text-[10px] text-amber-300 font-mono tracking-wider bg-stone-950/80 px-2 py-0.5 rounded-full border border-amber-500/30">
-              ĐANG QUÉT MÃ QR...
+              {t.scanner.scanningStatus}
             </div>
           </div>
         </div>
@@ -162,13 +162,13 @@ export const QrScannerView: React.FC<QrScannerViewProps> = ({
           <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-auto">
             <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-stone-950/80 text-emerald-400 border border-emerald-500/40 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              LIVE CAMERA
+              {t.scanner.liveCamera}
             </span>
 
             <button
               onClick={() => setTorchOn(!torchOn)}
               className="p-2 rounded-full bg-stone-950/80 text-amber-300 border border-stone-800 hover:bg-stone-900 transition-colors"
-              title="Bật đèn flash"
+              title={t.scanner.flashTitle}
             >
               <Flashlight className="w-4 h-4" />
             </button>
@@ -187,7 +187,7 @@ export const QrScannerView: React.FC<QrScannerViewProps> = ({
             />
             <div className="min-w-0">
               <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wide flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3" /> Đã quét mã {activeScannedPoi.code}
+                <CheckCircle2 className="w-3 h-3" /> {t.scanner.scannedCodeBadge} {activeScannedPoi.code}
               </span>
               <h4 className="text-sm font-bold text-amber-100 truncate font-serif-sacred">
                 {activeScannedPoi.name}
@@ -200,7 +200,7 @@ export const QrScannerView: React.FC<QrScannerViewProps> = ({
             className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs shadow-md shrink-0 transition-all"
           >
             <Volume2 className="w-3.5 h-3.5" />
-            <span>Nghe ngay</span>
+            <span>{t.scanner.listenNow}</span>
           </button>
         </div>
       )}
@@ -211,7 +211,7 @@ export const QrScannerView: React.FC<QrScannerViewProps> = ({
           type="text"
           value={manualCode}
           onChange={(e) => setManualCode(e.target.value)}
-          placeholder="Nhập mã QR di tích (ví dụ: LU-QUANAM-01)..."
+          placeholder={t.scanner.manualInputPlaceholder}
           className="flex-1 px-3.5 py-2 rounded-xl bg-stone-900 border border-stone-800 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50 uppercase"
         />
         <button
@@ -223,7 +223,7 @@ export const QrScannerView: React.FC<QrScannerViewProps> = ({
           }}
           className="px-4 py-2 rounded-xl bg-stone-800 hover:bg-stone-750 text-amber-300 font-bold text-xs border border-stone-700 transition-colors"
         >
-          Nhập
+          {t.scanner.manualSubmit}
         </button>
       </div>
 
