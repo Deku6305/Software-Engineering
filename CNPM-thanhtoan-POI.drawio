@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Trang-1" id="9bgomlGQC4A42RWyl_dM">
+    <mxGraphModel dx="1030" dy="527" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="staff" parent="1" style="shape=swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=45;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#fff2cc;strokeColor=#d6b656;" value="Staff&#xa;(Nhân viên / Admin)&#xa;------------------------&#xa;+ staff_id (PK)&#xa;  username&#xa;  password_hash&#xa;  role&#xa;  created_at" vertex="1">
+          <mxGeometry height="150" width="180" x="50" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="payment" parent="1" style="shape=swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=45;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="PaymentTransaction&#xa;(Giao dịch thanh toán)&#xa;------------------------&#xa;+ transaction_id (PK)&#xa;- session_id (FK)&#xa;- staff_id (FK, nullable)&#xa;  payment_method&#xa;  payment_status&#xa;  amount&#xa;  transaction_ref&#xa;  created_at" vertex="1">
+          <mxGeometry height="190" width="200" x="340" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="session" parent="1" style="shape=swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=45;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="AccessSession&#xa;(Phiên truy cập của khách)&#xa;------------------------&#xa;+ session_id (PK)&#xa;  auth_code&#xa;  shorted_code&#xa;  access_token&#xa;  status&#xa;  expires_at&#xa;  created_at" vertex="1">
+          <mxGeometry height="180" width="210" x="660" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="chat" parent="1" style="shape=swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=45;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#e1d5e7;strokeColor=#9673a6;" value="ChatLog&#xa;(Hỏi đáp RAG Chatbot)&#xa;------------------------&#xa;+ chat_id (PK)&#xa;- session_id (FK)&#xa;  user_query&#xa;  bot_response&#xa;  language_code&#xa;  created_at" vertex="1">
+          <mxGeometry height="160" width="190" x="1000" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="route" parent="1" style="shape=swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=45;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#ffe6cc;strokeColor=#d79b00;" value="Route&#xa;(Tuyến gợi ý)&#xa;------------------------&#xa;+ route_id (PK)&#xa;  route_name&#xa;  estimated_duration&#xa;  is_active" vertex="1">
+          <mxGeometry height="130" width="180" x="50" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="route_poi" parent="1" style="shape=swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=45;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#ffe6cc;strokeColor=#d79b00;" value="RoutePOI&#xa;(Thứ tự điểm đến)&#xa;------------------------&#xa;+ id (PK)&#xa;- route_id (FK)&#xa;- poi_id (FK)&#xa;  order_index&#xa;  direction_instruction" vertex="1">
+          <mxGeometry height="150" width="190" x="345" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="poi" parent="1" style="shape=swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=45;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="POI&#xa;(Điểm tham quan)&#xa;------------------------&#xa;+ poi_id (PK)&#xa;  name_default&#xa;  latitude&#xa;  longitude&#xa;  trigger_radius&#xa;  thumbnail_url&#xa;  is_active" vertex="1">
+          <mxGeometry height="170" width="200" x="665" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="poi_trans" parent="1" style="shape=swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=45;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="POITranslation&#xa;(Đa ngôn ngữ &amp; Audio 15+)&#xa;------------------------&#xa;+ translation_id (PK)&#xa;- poi_id (FK)&#xa;  language_code&#xa;  title&#xa;  description_text&#xa;  audio_url" vertex="1">
+          <mxGeometry height="170" width="210" x="990" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="rel1" edge="1" parent="1" source="staff" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="payment" value="1 : N&#xa;(ghi nhận tiền mặt)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel2" edge="1" parent="1" source="session" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="payment" value="1 : 1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel3" edge="1" parent="1" source="session" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="chat" value="1 : N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel4" edge="1" parent="1" source="route" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="route_poi" value="1 : N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel5" edge="1" parent="1" source="poi" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="route_poi" value="1 : N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel6" edge="1" parent="1" source="poi" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="poi_trans" value="1 : N&#xa;(15+ ngôn ngữ)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

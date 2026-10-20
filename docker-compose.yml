@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  # 1. Ứng dụng Web Linh Ứng (Node.js & Vite)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: linhung-app-service
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - DATABASE_URL=postgres://admin:adminpassword@db:5432/linhung_pagoda
+      - REDIS_URL=redis://redis-cache:6379
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    networks:
+      - pagoda-internal-mesh
+
+  # 2. Cơ Sở Dữ Liệu PostgreSQL (Lưu bảng Di tích, QR, Vé & Doanh thu)
+  db:
+    image: postgres:16-alpine
+    container_name: linhung-postgres-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=linhung_pagoda
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=adminpassword
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d linhung_pagoda"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pagoda-internal-mesh
+
+  # 3. Giao diện trực quan xem & quản lý bảng dữ liệu (Adminer Web UI)
+  adminer:
+    image: adminer:latest
+    container_name: linhung-db-viewer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - pagoda-internal-mesh
+
+  # 4. Redis Event Bus & Cache
+  redis-cache:
+    image: redis:7-alpine
+    container_name: linhung-redis-bus
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - pagoda-internal-mesh
+
+networks:
+  pagoda-internal-mesh:
+    driver: bridge
+
+volumes:
+  pgdata:
+  redis-data:
