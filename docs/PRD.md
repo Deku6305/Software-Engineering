@@ -456,6 +456,3 @@ Quy trình CI/CD được kích hoạt tự động mỗi khi có lệnh `push` 
 Đồ án **Linh Ứng Pagoda Smart Guide & Narration** là minh chứng tiêu biểu cho việc vận dụng toàn diện các nguyên lý cốt lõi của ngành **Công nghệ Phần mềm**: từ khảo sát nhu cầu thực tế, phân tích nghiệp vụ, mô hình hóa dữ liệu (UML & ERD), thiết kế kiến trúc phân tầng chịu tải cao (Microservices Mesh & Event-Driven Pub/Sub), đến áp dụng các công nghệ web hiện đại nhất (React 19, TypeScript, Web Speech, WebRTC, Web AR, AI LLM) và chuẩn hóa quy trình DevOps (Docker, Kubernetes, GitHub Actions CI/CD).
 
 Sản phẩm không chỉ đáp ứng xuất sắc các tiêu chí học thuật của một đồ án kỹ thuật phần mềm mà còn sở hữu giá trị ứng dụng thực tiễn cao, góp phần số hóa và nâng tầm trải nghiệm du lịch tâm linh tại thành phố Đà Nẵng.
-
----
-*Tài liệu được biên soạn và đồng bộ hóa trực tiếp từ kiến trúc mã nguồn dự án.*
