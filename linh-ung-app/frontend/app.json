@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Linh Ứng Guide",
+    "slug": "linhung-guide",
+    "scheme": "linhung",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "plugins": [
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Cần camera để quét mã QR vé dịch vụ."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Cần vị trí để tự động phát thuyết minh khi bạn đến gần điểm tham quan."
+        }
+      ],
+      "expo-status-bar",
+      "expo-audio"
+    ],
+    "android": {
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA"
+      ]
+    }
+  }
+}
